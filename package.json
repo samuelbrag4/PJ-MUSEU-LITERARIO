@@ -4,7 +4,7 @@
   "description": "Plataforma de exposição de obras literárias brasileiras. ",
   "author": "samuelbrag4",
   "license": "MIT",
-  "type": "commonjs",
+  "type": "module",
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
