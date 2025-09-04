@@ -16,49 +16,53 @@ datasource db {
 model Usuario {
   id                Int       @id @default(autoincrement())
   nome              String
-  nomeUsuario          String    @unique
+  nomeUsuario       String    @unique
   email             String    @unique
-  senha          String
-  nascimento         Int
-  idade               Int
+  senha             String
+  nascimento        Int
+  idade             Int
   entrouEm          DateTime  @default(now())
-  livrosFavoritos     Favorito[]
-  avaliacoes           Avaliacao[]
+  escritor          Boolean   @default(false) // Indica se o usuário é escritor
+  livrosFavoritos   Favorito[]
+  avaliacoes        Avaliacao[]
+  livrosEscritos    Livro[]    @relation("LivrosDoEscritor") // Relacionamento com livros escritos
 }
 
 model Livro {
   id                Int       @id @default(autoincrement())
-  titulo             String
-  anoLancamento       Int
-  autor            String
-  descricao       String
-  mediaPreco      Float
-  imagem        String
-  genero             String
+  titulo            String
+  anoLancamento     Int
+  autor             String
+  descricao         String
+  mediaPreco        Float
+  imagem            String
+  genero            String
   dificuldade       Dificuldade
-  temAdaptacao     Boolean
-  numeroPaginas         Int
-  avaliacoes           Avaliacao[]
+  temAdaptacao      Boolean
+  numeroPaginas     Int
+  avaliacoes        Avaliacao[]
   favoritos         Favorito[]
+  escritorId        Int?       // ID do escritor (opcional, pois nem todos os livros têm um escritor associado)
+  escritor          Usuario?   @relation("LivrosDoEscritor", fields: [escritorId], references: [id])
 }
 
 model Favorito {
   id                Int       @id @default(autoincrement())
-  usuarioId            Int
-  livroId            Int
+  usuarioId         Int
+  livroId           Int
   status            StatusLeitura
-  usuario              Usuario      @relation(fields: [usuarioId], references: [id])
-  livro              Livro     @relation(fields: [livroId], references: [id])
+  usuario           Usuario      @relation(fields: [usuarioId], references: [id])
+  livro             Livro        @relation(fields: [livroId], references: [id])
 }
 
 model Avaliacao {
   id                Int       @id @default(autoincrement())
-  usuarioId            Int
-  livroId            Int
-  avaliacao            Int       @default(0)
-  comentario           String?
-  usuario              Usuario      @relation(fields: [usuarioId], references: [id])
-  livro              Livro      @relation(fields: [livroId], references: [id])
+  usuarioId         Int
+  livroId           Int
+  avaliacao         Int       @default(0)
+  comentario        String?
+  usuario           Usuario      @relation(fields: [usuarioId], references: [id])
+  livro             Livro        @relation(fields: [livroId], references: [id])
 }
 
 enum Dificuldade {
