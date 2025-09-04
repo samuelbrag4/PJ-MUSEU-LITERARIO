@@ -1,0 +1,33 @@
+import jwt from "jsonwebtoken";
+
+const authMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  // Verificar se o token existe
+  if (!authHeader) {
+    return res.status(401).json({ error: "Token não fornecido." });
+  }
+
+  // Retirar o token do Bearer Token
+  const parts = authHeader.split(" ");
+  if (parts.length !== 2) {
+    return res.status(401).json({ error: "Token mal formatado." });
+  }
+
+  const [scheme, token] = parts;
+
+  if (!/^Bearer$/i.test(scheme)) {
+    return res.status(401).json({ error: "Token mal formatado." });
+  }
+
+  // Verificar o token
+  try {
+    const decoded = jwt.verify(token, "seu-segredo");
+    req.userId = decoded.id;
+    return next();
+  } catch (err) {
+    return res.status(401).json({ error: "Token inválido." });
+  }
+};
+
+export default authMiddleware;
