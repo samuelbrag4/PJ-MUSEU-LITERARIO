@@ -221,7 +221,102 @@ async function main() {
   // Criar livros
   await prisma.livro.createMany({
     data: [
-      // Adicione os dados dos livros aqui, incluindo o autorId
+        {
+          "titulo": "O Guarani",
+          "anoLancamento": 1857,
+          "autorId": 1,
+          "descricao": "Romance indianista de José de Alencar, que mistura aventura, romance e heroísmo.",
+          "mediaPreco": 39.9,
+          "imagem": "https://upload.wikimedia.org/wikipedia/commons/5/5b/O_Guarani_-_José_de_Alencar.jpg",
+          "genero": "Romance",
+          "dificuldade": "ALTA",
+          "temAdaptacao": true,
+          "numeroPaginas": 320
+        },
+        {
+          "titulo": "Iracema",
+          "anoLancamento": 1865,
+          "autorId": 1,
+          "descricao": "Romance sobre a origem do Ceará e a história de amor entre Martim e Iracema.",
+          "mediaPreco": 34.9,
+          "imagem": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Iracema_-_José_de_Alencar.jpg",
+          "genero": "Romance",
+          "dificuldade": "ALTA",
+          "temAdaptacao": true,
+          "numeroPaginas": 280
+        },
+        {
+          "titulo": "Viagem",
+          "anoLancamento": 1939,
+          "autorId": 2,
+          "descricao": "Coletânea de poemas líricos e reflexivos de Cecília Meireles, marcada pela musicalidade.",
+          "mediaPreco": 29.9,
+          "imagem": "https://upload.wikimedia.org/wikipedia/commons/7/79/Cec%C3%ADlia_Meireles_1934.jpg",
+          "genero": "Poesia",
+          "dificuldade": "MEDIA",
+          "temAdaptacao": false,
+          "numeroPaginas": 120
+        },
+        {
+          "titulo": "Romanceiro da Inconfidência",
+          "anoLancamento": 1953,
+          "autorId": 2,
+          "descricao": "Obra poética baseada na Inconfidência Mineira, mostrando o lirismo e o patriotismo da autora.",
+          "mediaPreco": 32.9,
+          "imagem": "https://upload.wikimedia.org/wikipedia/commons/7/79/Cec%C3%ADlia_Meireles_1934.jpg",
+          "genero": "Poesia",
+          "dificuldade": "MEDIA",
+          "temAdaptacao": false,
+          "numeroPaginas": 140
+        },
+        {
+          "titulo": "Alguma Poesia",
+          "anoLancamento": 1930,
+          "autorId": 3,
+          "descricao": "Primeira coletânea de poemas de Carlos Drummond de Andrade, marcada pelo modernismo e pelo lirismo urbano.",
+          "mediaPreco": 27.9,
+          "imagem": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Carlos_Drummond_de_Andrade.jpg",
+          "genero": "Poesia",
+          "dificuldade": "MEDIA",
+          "temAdaptacao": false,
+          "numeroPaginas": 100
+        },
+        {
+          "titulo": "A Rosa do Povo",
+          "anoLancamento": 1945,
+          "autorId": 3,
+          "descricao": "Obra poética de Drummond que aborda a Segunda Guerra Mundial e a condição humana, consolidando-o como poeta universal.",
+          "mediaPreco": 35.9,
+          "imagem": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Carlos_Drummond_de_Andrade.jpg",
+          "genero": "Poesia",
+          "dificuldade": "ALTA",
+          "temAdaptacao": false,
+          "numeroPaginas": 180
+        },
+        {
+          "titulo": "Dom Casmurro",
+          "anoLancamento": 1899,
+          "autorId": 4,
+          "descricao": "Romance clássico de Machado de Assis, explorando a dúvida sobre a fidelidade de Capitu.",
+          "mediaPreco": 34.9,
+          "imagem": "https://upload.wikimedia.org/wikipedia/commons/3/35/Machado_de_Assis_1890_por_Marc_Ferrez.jpg",
+          "genero": "Romance",
+          "dificuldade": "ALTA",
+          "temAdaptacao": true,
+          "numeroPaginas": 256
+        },
+        {
+          "titulo": "Memórias Póstumas de Brás Cubas",
+          "anoLancamento": 1881,
+          "autorId": 4,
+          "descricao": "Romance inovador narrado por um defunto-autor, criticando a sociedade brasileira do século XIX.",
+          "mediaPreco": 29.9,
+          "imagem": "https://upload.wikimedia.org/wikipedia/commons/3/35/Machado_de_Assis_1890_por_Marc_Ferrez.jpg",
+          "genero": "Romance",
+          "dificuldade": "ALTA",
+          "temAdaptacao": true,
+          "numeroPaginas": 240
+        },
     ],
   });
 
