@@ -22,17 +22,28 @@ model Usuario {
   nascimento        Int
   idade             Int
   entrouEm          DateTime  @default(now())
-  escritor          Boolean   @default(false) // Indica se o usuário é escritor
+  foto              String?   // URL ou caminho da foto do usuário
   livrosFavoritos   Favorito[]
   avaliacoes        Avaliacao[]
-  livrosEscritos    Livro[]    @relation("LivrosDoEscritor") // Relacionamento com livros escritos
+}
+
+model Escritor {
+  id                Int       @id @default(autoincrement())
+  nome              String
+  email             String?   // Email profissional (opcional)
+  biografia         String?   // Breve biografia do escritor
+  dataNascimento    DateTime? // Data de nascimento (opcional)
+  dataFalecimento   DateTime? // Data de falecimento (opcional)
+  foto              String?   // URL da foto do escritor
+  livros            Livro[]   // Relacionamento com os livros escritos por este autor
 }
 
 model Livro {
   id                Int       @id @default(autoincrement())
   titulo            String
   anoLancamento     Int
-  autor             String
+  autorId           Int?      // ID do escritor (opcional, pois nem todos os livros têm um autor associado)
+  autor             Escritor? @relation(fields: [autorId], references: [id])
   descricao         String
   mediaPreco        Float
   imagem            String
@@ -42,8 +53,6 @@ model Livro {
   numeroPaginas     Int
   avaliacoes        Avaliacao[]
   favoritos         Favorito[]
-  escritorId        Int?       // ID do escritor (opcional, pois nem todos os livros têm um escritor associado)
-  escritor          Usuario?   @relation("LivrosDoEscritor", fields: [escritorId], references: [id])
 }
 
 model Favorito {
