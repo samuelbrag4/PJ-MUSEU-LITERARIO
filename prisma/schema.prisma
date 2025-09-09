@@ -25,6 +25,8 @@ model Usuario {
   foto              String?   // URL ou caminho da foto do usuário
   livrosFavoritos   Favorito[]
   avaliacoes        Avaliacao[]
+    livroDestaqueId   Int?      // Novo campo: id do livro de destaque
+    livroDestaque     Livro?    @relation("LivroDestaque", fields: [livroDestaqueId], references: [id])
 }
 
 model Escritor {
@@ -53,6 +55,7 @@ model Livro {
   numeroPaginas     Int
   avaliacoes        Avaliacao[]
   favoritos         Favorito[]
+    usuariosDestaque  Usuario[]  @relation("LivroDestaque") // Campo oposto para relação de destaque
 }
 
 model Favorito {

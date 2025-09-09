@@ -377,12 +377,14 @@ async function main() {
         email: "usuario.normal@example.com",
         senha: senhaUsuarioNormal, // Senha com hash
         tipo: "NORMAL", // Tipo de usuário normal
+        livroDestaqueId: 1 // O Guarani
       },
       {
         nome: "Usuário Escritor",
         email: "usuario.escritor@example.com",
         senha: senhaUsuarioEscritor, // Senha com hash
         tipo: "ESCRITOR", // Tipo de usuário escritor
+        livroDestaqueId: 3 // Viagem
       },
     ],
   });
