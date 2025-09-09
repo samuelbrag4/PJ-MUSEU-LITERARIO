@@ -11,6 +11,9 @@
     "dev": "nodemon src/server.js",
     "seed": "node prisma/seed.js"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "keywords": [
     "Livros",
     "senai",

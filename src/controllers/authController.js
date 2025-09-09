@@ -5,13 +5,17 @@ import UserModel from "../models/usuarioModel.js";
 class AuthController {
   // Registrar novo usuário
   async register(req, res) {
-    const { nome, nomeUsuario, email, senha, nascimento, idade } = req.body;
+    const { nome, nomeUsuario, email, senha, nascimento, idade, tipo } = req.body;
 
     try {
       // Verificar se o e-mail já está em uso
       const userExists = await UserModel.findByEmail(email);
       if (userExists) {
         return res.status(400).json({ error: "E-mail já está em uso." });
+      }
+
+      if (!tipo) {
+        return res.status(400).json({ error: "O campo 'tipo' é obrigatório (NORMAL ou ESCRITOR)." });
       }
 
       // Gerar hash da senha
@@ -24,12 +28,13 @@ class AuthController {
         email,
         senha: hashedPassword,
         nascimento,
-        idade
+        idade,
+        tipo
       });
 
       res.status(201).json({ message: "Usuário registrado com sucesso!", user });
     } catch (error) {
-      res.status(500).json({ error: "Erro ao registrar usuário." });
+      res.status(500).json({ error: error.message || "Erro ao registrar usuário." });
     }
   }
 

@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt"; // Importar o bcrypt
-
+import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -8,7 +7,25 @@ async function main() {
   const senhaUsuarioNormal = await bcrypt.hash("senha123", 10);
   const senhaUsuarioEscritor = await bcrypt.hash("senha123", 10);
 
-  // Criar escritores
+  // Exemplo funcional: criar escritores
+  await prisma.escritor.createMany({
+    data: [
+      {
+        nome: "Machado de Assis",
+        biografia: "Um dos maiores escritores brasileiros.",
+        foto: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Machado_de_Assis_1904.jpg"
+      },
+      {
+        nome: "Clarice Lispector",
+        biografia: "Autora de romances e contos marcantes.",
+        foto: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Clarice_Lispector.jpg"
+      }
+    ]
+  });
+
+  // ...usuários já serão criados no bloco final, não duplicar...
+
+  console.log("Seed concluído com sucesso!");
   await prisma.escritor.createMany({
     data: [
       // Clássicos
@@ -20,24 +37,6 @@ async function main() {
         dataNascimento: new Date("1829-05-01"),
         dataFalecimento: new Date("1877-12-12"),
         foto: "https://upload.wikimedia.org/wikipedia/commons/1/16/Jos%C3%A9_de_Alencar.jpg",
-      },
-      {
-        nome: "Cecília Meireles",
-        email: null,
-        biografia:
-          'Cecília Meireles (1901–1964) foi a primeira escritora brasileira a ganhar grande reconhecimento literário. Autora de mais de cinquenta obras, escreveu poemas, romances, livros infantis e textos jornalísticos. Estreou com "Espectros" (1919) aos 18 anos.',
-        dataNascimento: new Date("1901-11-07"),
-        dataFalecimento: new Date("1964-11-09"),
-        foto: "https://upload.wikimedia.org/wikipedia/commons/7/79/Cec%C3%ADlia_Meireles_1934.jpg",
-      },
-      {
-        nome: "Carlos Drummond de Andrade",
-        email: null,
-        biografia:
-          'Carlos Drummond de Andrade (1902–1987) é considerado um dos maiores poetas brasileiros. Sua obra é marcada por versos soltos, simplicidade de linguagem e reflexão social e existencial. Destaca-se "A Rosa do Povo" (1945) entre suas obras mais renomadas.',
-        dataNascimento: new Date("1902-10-31"),
-        dataFalecimento: new Date("1987-08-17"),
-        foto: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Carlos_Drummond_de_Andrade.jpg",
       },
       {
         nome: "Machado de Assis",
@@ -369,36 +368,17 @@ async function main() {
     ],
   });
 
-  // Criar usuários
-  await prisma.usuario.createMany({
-    data: [
-      {
-        nome: "Usuário Normal",
-        email: "usuario.normal@example.com",
-        senha: senhaUsuarioNormal, // Senha com hash
-        tipo: "NORMAL", // Tipo de usuário normal
-        livroDestaqueId: 1 // O Guarani
-      },
-      {
-        nome: "Usuário Escritor",
-        email: "usuario.escritor@example.com",
-        senha: senhaUsuarioEscritor, // Senha com hash
-        tipo: "ESCRITOR", // Tipo de usuário escritor
-        livroDestaqueId: 3 // Viagem
-      },
-    ],
-  });
+  // ...usuários já foram criados anteriormente, não duplicar...
 
-  // Criar livros favoritos
-  await prisma.livroFavorito.createMany({
+  // Criar favoritos
+  await prisma.favorito.createMany({
     data: [
-      // Livros favoritos do Usuário Normal
-      { usuarioId: 1, livroId: 1, status: "LIDO" }, // O Guarani
-      { usuarioId: 1, livroId: 2, status: "LENDO" }, // Iracema
-
-      // Livros favoritos do Usuário Escritor
-      { usuarioId: 2, livroId: 3, status: "VOU_LER" }, // Viagem
-      { usuarioId: 2, livroId: 4, status: "LIDO" }, // Romanceiro da Inconfidência
+      // Favoritos do Usuário Normal
+      { usuarioId: 1, livroId: 1, status: "LIDO" },
+      { usuarioId: 1, livroId: 2, status: "LENDO" },
+      // Favoritos do Usuário Escritor
+      { usuarioId: 2, livroId: 3, status: "VOU_LER" },
+      { usuarioId: 2, livroId: 4, status: "LIDO" },
     ],
   });
 
@@ -418,7 +398,6 @@ async function main() {
         avaliacao: 4,
         comentario: "Uma história emocionante e cheia de simbolismo.",
       },
-
       // Avaliações do Usuário Escritor
       {
         usuarioId: 2,

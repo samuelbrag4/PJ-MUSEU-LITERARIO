@@ -39,6 +39,10 @@ class UsuarioModel {
 
   // Criar um novo usuário
   async create(data) {
+    // Garante que o campo 'tipo' está presente
+    if (!data.tipo) {
+      throw new Error("O campo 'tipo' é obrigatório (NORMAL ou ESCRITOR)");
+    }
     return await prisma.usuario.create({
       data,
       include: {
