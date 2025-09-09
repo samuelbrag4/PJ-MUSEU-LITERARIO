@@ -1,3 +1,130 @@
+# 📬 Exemplos de Requisições HTTP
+
+Aqui estão exemplos de como testar as principais rotas da API usando Postman, Insomnia ou qualquer ferramenta HTTP. Todas as rotas protegidas exigem o token JWT no header `Authorization: Bearer <seu_token>`.
+
+## Usuário
+
+### Registrar usuário
+POST /auth/register
+Body (JSON):
+```
+{
+	"nome": "João",
+	"nomeUsuario": "joao123",
+	"email": "joao@email.com",
+	"senha": "senha123",
+	"nascimento": 2000,
+	"idade": 25,
+	"tipo": "NORMAL"
+}
+```
+
+### Login
+POST /auth/login
+Body (JSON):
+```
+{
+	"email": "joao@email.com",
+	"senha": "senha123"
+}
+```
+
+### Listar todos os usuários
+GET /usuarios
+Headers: Authorization: Bearer <token>
+
+### Buscar usuário por ID
+GET /usuarios/1
+Headers: Authorization: Bearer <token>
+
+### Criar usuário
+POST /usuarios
+Headers: Authorization: Bearer <token>
+Body (JSON): igual ao registro
+
+### Atualizar usuário
+PUT /usuarios/1
+Headers: Authorization: Bearer <token>
+Body (JSON):
+```
+{
+	"nome": "João da Silva",
+	"idade": 26
+}
+```
+
+### Deletar usuário
+DELETE /usuarios/1
+Headers: Authorization: Bearer <token>
+
+---
+
+## Livros
+
+### Listar todos os livros (com filtros)
+GET /livros?titulo=Dom&genero=Romance&autor=Machado&dificuldade=ALTA&pagina=1&limite=10
+
+### Buscar livro por ID
+GET /livros/1
+Headers: Authorization: Bearer <token>
+
+### Criar livro
+POST /livros
+Headers: Authorization: Bearer <token>
+Body (JSON):
+```
+{
+	"titulo": "Dom Casmurro",
+	"anoLancamento": 1899,
+	"autorId": 4,
+	"descricao": "Romance clássico de Machado de Assis.",
+	"mediaPreco": 34.9,
+	"imagem": "https://...",
+	"genero": "Romance",
+	"dificuldade": "ALTA",
+	"temAdaptacao": true,
+	"numeroPaginas": 240
+}
+```
+
+### Atualizar livro
+PUT /livros/1
+Headers: Authorization: Bearer <token>
+Body (JSON):
+```
+{
+	"titulo": "Dom Casmurro (Edição Especial)"
+}
+```
+
+### Deletar livro
+DELETE /livros/1
+Headers: Authorization: Bearer <token>
+
+---
+
+## Escritores
+
+### Listar escritores
+GET /escritores
+
+---
+
+## Favoritos
+
+### Listar favoritos
+GET /favoritos
+
+---
+
+## Avaliações
+
+### Listar avaliações
+GET /avaliacoes
+
+---
+
+**Obs:** Para rotas protegidas, sempre inclua o header `Authorization: Bearer <token>`.
 
 
 # 📚 Museu Literário Brasileiro
