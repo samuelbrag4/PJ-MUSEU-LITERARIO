@@ -190,3 +190,77 @@ Projeto livre, desenvolvido para fins educacionais e de demonstração.
 
 ## ✨ Contribua!
 Sinta-se à vontade para abrir issues, sugerir melhorias ou enviar pull requests!
+
+---
+
+## 🧪 Testando Requisições com Postman
+
+Aqui estão exemplos práticos de como testar as principais rotas da API usando o Postman:
+
+### 1. Registro de Usuário
+**Método:** POST  
+**URL:** `http://localhost:5000/auth/register`
+**Body (JSON):**
+```json
+{
+	"nome": "Samuel Braga",
+	"nomeUsuario": "samuelbraga",
+	"email": "samuel.d.braga6@aluno.senai.br",
+	"senha": "contaTeste123",
+	"nascimento": 2000,
+	"idade": 25
+}
+```
+
+### 2. Login de Usuário
+**Método:** POST  
+**URL:** `http://localhost:5000/auth/login`
+**Body (JSON):**
+```json
+{
+	"email": "samuel.d.braga6@aluno.senai.br",
+	"senha": "contaTeste123"
+}
+```
+**Resposta:**
+```json
+{
+	"message": "Login realizado com sucesso!",
+	"token": "SEU_TOKEN_JWT_AQUI",
+	"user": { ...dados do usuário... }
+}
+```
+
+### 3. Usando o Token JWT
+Para acessar rotas protegidas, adicione o token JWT no header:
+```
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+```
+
+### 4. Buscar Todos os Usuários (Protegida)
+**Método:** GET  
+**URL:** `http://localhost:5000/usuarios`
+**Headers:**
+```
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+```
+
+### 5. Buscar Usuário por ID (Protegida)
+**Método:** GET  
+**URL:** `http://localhost:5000/usuarios/1`
+**Headers:**
+```
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+```
+
+### 6. Deletar Usuário (Protegida)
+**Método:** DELETE  
+**URL:** `http://localhost:5000/usuarios/1`
+**Headers:**
+```
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+```
+
+---
+
+> Para testar outras rotas, siga o mesmo padrão: envie o token no header e o corpo conforme o endpoint. Qualquer dúvida, consulte os exemplos acima ou peça ajuda!

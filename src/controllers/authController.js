@@ -5,7 +5,7 @@ import UserModel from "../models/usuarioModel.js";
 class AuthController {
   // Registrar novo usuário
   async register(req, res) {
-    const { name, email, password } = req.body;
+    const { nome, nomeUsuario, email, senha, nascimento, idade } = req.body;
 
     try {
       // Verificar se o e-mail já está em uso
@@ -15,13 +15,16 @@ class AuthController {
       }
 
       // Gerar hash da senha
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(senha, 10);
 
       // Criar o usuário
       const user = await UserModel.create({
-        name,
+        nome,
+        nomeUsuario,
         email,
-        password: hashedPassword,
+        senha: hashedPassword,
+        nascimento,
+        idade
       });
 
       res.status(201).json({ message: "Usuário registrado com sucesso!", user });
@@ -32,7 +35,7 @@ class AuthController {
 
   // Login de usuário
   async login(req, res) {
-    const { email, password } = req.body;
+    const { email, senha } = req.body;
 
     try {
       // Verificar se o usuário existe
@@ -42,7 +45,7 @@ class AuthController {
       }
 
       // Verificar a senha
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid = await bcrypt.compare(senha, user.senha);
       if (!isPasswordValid) {
         return res.status(401).json({ error: "Senha inválida." });
       }
@@ -50,8 +53,8 @@ class AuthController {
       // Gerar token JWT
       const token = jwt.sign({ id: user.id }, "seu-segredo", { expiresIn: "1h" });
 
-      // Remover o campo password do retorno
-      const { password: _, ...userWithoutPassword } = user;
+      // Remover o campo senha do retorno
+      const { senha: _, ...userWithoutPassword } = user;
 
       res.json({
         message: "Login realizado com sucesso!",
