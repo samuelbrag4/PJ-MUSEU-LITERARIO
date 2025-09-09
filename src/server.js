@@ -1,20 +1,30 @@
 import express from "express";
-import { config } from "dotenv";
-import cors from "cors"; // Importa o middleware CORS
+import cors from "cors";
+import dotenv from "dotenv";
 
-import routes from "./routes/index.routes.js"; // Importa as rotas principais
+import authRoutes from "./routes/auth.routes.js";
+import usuarioRoutes from "./routes/usuario.routes.js";
+import livroRoutes from "./routes/livro.routes.js";
+import avaliacaoRoutes from "./routes/avaliacao.routes.js";
+import favoritoRoutes from "./routes/favorito.routes.js";
+import escritorRoutes from "./routes/escritor.routes.js";
+import routes from "./routes/index.routes.js";
 
-config(); // Carrega variáveis de ambiente do arquivo .env
-const port = process.env.PORT || 3000; // Define a porta do servidor
 
-// Inicializa o Express
+dotenv.config();
+
 const app = express();
-
-// Middleware para habilitar CORS
-app.use(cors()); // Habilita CORS para todas as rotas
-
-// Middleware para parse de JSON
+app.use(cors());
 app.use(express.json());
+
+// Usar rotas
+app.use("/api/auth", authRoutes);
+app.use("/api/usuarios", usuarioRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
 
 // Rota inicial para verificar se a API está funcionando
 app.get("/", (req, res) => {
@@ -25,8 +35,8 @@ app.get("/", (req, res) => {
 app.use("/", routes);
 
 // Inicia o servidor
-const server = app.listen(port, () => {
-  console.log(`🟢 Servidor rodando na porta ${port} 🟢`);
+const server = app.listen(PORT, () => {
+  console.log(`🟢 Servidor rodando na porta ${PORT} 🟢`);
 });
 
 // Captura interrupções (Ctrl+C) ou encerramento do processo
