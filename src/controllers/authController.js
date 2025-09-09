@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import UserModel from "../models/usuario.model.js";
+import UserModel from "../models/usuarioModel.js";
 
 class AuthController {
   // Registrar novo usuário
