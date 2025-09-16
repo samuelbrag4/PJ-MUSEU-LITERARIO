@@ -117,13 +117,6 @@ GET /favoritos
 
 ---
 
-## Avaliações
-
-### Listar avaliações
-GET /avaliacoes
-
----
-
 **Obs:** Para rotas protegidas, sempre inclua o header `Authorization: Bearer <token>`.
 
 

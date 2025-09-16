@@ -24,7 +24,6 @@ model Usuario {
   entrouEm        DateTime    @default(now())
   foto            String? // URL ou caminho da foto do usuário
   livrosFavoritos Favorito[]
-  avaliacoes      Avaliacao[]
   tipo            String @default("NORMAL") // <-- Agora tem valor padrão!
   livroDestaqueId Int? // Novo campo: id do livro de destaque
   livroDestaque   Livro?      @relation("LivroDestaque", fields: [livroDestaqueId], references: [id])
@@ -54,7 +53,6 @@ model Livro {
   dificuldade      Dificuldade
   temAdaptacao     Boolean
   numeroPaginas    Int
-  avaliacoes       Avaliacao[]
   favoritos        Favorito[]
   usuariosDestaque Usuario[]   @relation("LivroDestaque") // Campo oposto para relação de destaque
 }
@@ -68,15 +66,6 @@ model Favorito {
   livro     Livro         @relation(fields: [livroId], references: [id])
 }
 
-model Avaliacao {
-  id         Int     @id @default(autoincrement())
-  usuarioId  Int
-  livroId    Int
-  avaliacao  Int     @default(0)
-  comentario String?
-  usuario    Usuario @relation(fields: [usuarioId], references: [id])
-  livro      Livro   @relation(fields: [livroId], references: [id])
-}
 
 enum Dificuldade {
   BAIXA

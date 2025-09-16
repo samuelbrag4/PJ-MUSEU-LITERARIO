@@ -368,51 +368,98 @@ async function main() {
     ],
   });
 
-  // ...usuários já foram criados anteriormente, não duplicar...
+  // Criar usuários
+  const usuarioNormal = await prisma.usuario.create({
+    data: {
+      nome: "Usuário Normal",
+      nomeUsuario: "usuario_normal",
+      email: "usuario.normal@example.com",
+      senha: senhaUsuarioNormal,
+      nascimento: 2000,
+      idade: 25,
+      tipo: "NORMAL"
+    }
+  });
+  const usuarioEscritor = await prisma.usuario.create({
+    data: {
+      nome: "Usuário Escritor",
+      nomeUsuario: "usuario_escritor",
+      email: "usuario.escritor@example.com",
+      senha: senhaUsuarioEscritor,
+      nascimento: 1995,
+      idade: 30,
+      tipo: "ESCRITOR"
+    }
+  });
+
+  // Criar livros
+  const livro1 = await prisma.livro.create({
+    data: {
+      titulo: "O Guarani",
+      anoLancamento: 1857,
+      autorId: 1,
+      descricao: "Romance indianista de José de Alencar.",
+      mediaPreco: 34.9,
+      imagem: "https://upload.wikimedia.org/wikipedia/commons/1/16/Jos%C3%A9_de_Alencar.jpg",
+      genero: "Romance",
+      dificuldade: "ALTA",
+      temAdaptacao: true,
+      numeroPaginas: 280
+    }
+  });
+  const livro2 = await prisma.livro.create({
+    data: {
+      titulo: "Iracema",
+      anoLancamento: 1865,
+      autorId: 1,
+      descricao: "Romance sobre a origem do Ceará.",
+      mediaPreco: 34.9,
+      imagem: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Iracema_-_José_de_Alencar.jpg",
+      genero: "Romance",
+      dificuldade: "ALTA",
+      temAdaptacao: true,
+      numeroPaginas: 280
+    }
+  });
+  const livro3 = await prisma.livro.create({
+    data: {
+      titulo: "Viagem",
+      anoLancamento: 1939,
+      autorId: 2,
+      descricao: "Coletânea de poemas líricos de Cecília Meireles.",
+      mediaPreco: 29.9,
+      imagem: "https://upload.wikimedia.org/wikipedia/commons/7/79/Cec%C3%ADlia_Meireles_1934.jpg",
+      genero: "Poesia",
+      dificuldade: "MEDIA",
+      temAdaptacao: false,
+      numeroPaginas: 120
+    }
+  });
+  const livro4 = await prisma.livro.create({
+    data: {
+      titulo: "Romanceiro da Inconfidência",
+      anoLancamento: 1953,
+      autorId: 2,
+      descricao: "Obra poética baseada na Inconfidência Mineira.",
+      mediaPreco: 32.9,
+      imagem: "https://upload.wikimedia.org/wikipedia/commons/7/79/Cec%C3%ADlia_Meireles_1934.jpg",
+      genero: "Poesia",
+      dificuldade: "MEDIA",
+      temAdaptacao: false,
+      numeroPaginas: 140
+    }
+  });
 
   // Criar favoritos
   await prisma.favorito.createMany({
     data: [
-      // Favoritos do Usuário Normal
-      { usuarioId: 1, livroId: 1, status: "LIDO" },
-      { usuarioId: 1, livroId: 2, status: "LENDO" },
-      // Favoritos do Usuário Escritor
-      { usuarioId: 2, livroId: 3, status: "VOU_LER" },
-      { usuarioId: 2, livroId: 4, status: "LIDO" },
+      { usuarioId: usuarioNormal.id, livroId: livro1.id, status: "LIDO" },
+      { usuarioId: usuarioNormal.id, livroId: livro2.id, status: "LENDO" },
+      { usuarioId: usuarioEscritor.id, livroId: livro3.id, status: "VOU_LER" },
+      { usuarioId: usuarioEscritor.id, livroId: livro4.id, status: "LIDO" },
     ],
   });
 
-  // Criar avaliações
-  await prisma.avaliacao.createMany({
-    data: [
-      // Avaliações do Usuário Normal
-      {
-        usuarioId: 1,
-        livroId: 1,
-        avaliacao: 5,
-        comentario: "Um clássico incrível da literatura brasileira!",
-      },
-      {
-        usuarioId: 1,
-        livroId: 2,
-        avaliacao: 4,
-        comentario: "Uma história emocionante e cheia de simbolismo.",
-      },
-      // Avaliações do Usuário Escritor
-      {
-        usuarioId: 2,
-        livroId: 3,
-        avaliacao: 5,
-        comentario: "Poesia que toca a alma, Cecília Meireles é brilhante.",
-      },
-      {
-        usuarioId: 2,
-        livroId: 4,
-        avaliacao: 4,
-        comentario: "Uma obra poética que resgata a história do Brasil.",
-      },
-    ],
-  });
 
   console.log("Seed concluído com sucesso!");
 }

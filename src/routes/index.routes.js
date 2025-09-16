@@ -1,10 +1,10 @@
 import express from "express";
-import authRoutes from "./auth.routes.js";
-import usuarioRoutes from "./usuarioRoutes.js";
+import authRouter from "./auth.routes.js";
 import livroRoutes from "./livroRoutes.js";
 import escritorRoutes from "./escritorRoutes.js";
 import favoritoRoutes from "./favoritoRoutes.js";
-import avaliacaoRoutes from "./avaliacaoRoutes.js";
+import AuthController from "../controllers/authController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -12,11 +12,18 @@ router.get("/", (req, res) => {
 	res.json({ message: "Rota principal funcionando!" });
 });
 
-router.use("/auth", authRoutes);
-router.use("/usuarios", usuarioRoutes);
+// Rotas de autenticação
+router.use("/auth", authRouter);
+
+// Rotas de usuário (CRUD básico, sem usuarioRoutes.js)
+router.get("/usuarios", authMiddleware, AuthController.getAllUsers);
+router.get("/usuarios/:id", authMiddleware, (req, res) => AuthController.getById(req, res));
+router.put("/usuarios/:id", authMiddleware, (req, res) => AuthController.update(req, res));
+// Adicione aqui outras rotas de usuário se necessário
+
+// Outras rotas
 router.use("/livros", livroRoutes);
 router.use("/escritores", escritorRoutes);
 router.use("/favoritos", favoritoRoutes);
-router.use("/avaliacoes", avaliacaoRoutes);
 
 export default router;

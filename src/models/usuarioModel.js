@@ -7,8 +7,7 @@ class UsuarioModel {
     return await prisma.usuario.findMany({
       include: {
         livroDestaque: true,
-        livrosFavoritos: true,
-        avaliacoes: true,
+        livrosFavoritos: true
       },
     });
   }
@@ -19,8 +18,7 @@ class UsuarioModel {
       where: { id: Number(id) },
       include: {
         livroDestaque: true,
-        livrosFavoritos: true,
-        avaliacoes: true,
+        livrosFavoritos: true
       },
     });
   }
@@ -31,8 +29,7 @@ class UsuarioModel {
       where: { email },
       include: {
         livroDestaque: true,
-        livrosFavoritos: true,
-        avaliacoes: true,
+        livrosFavoritos: true
       },
     });
   }
@@ -47,8 +44,7 @@ class UsuarioModel {
       data,
       include: {
         livroDestaque: true,
-        livrosFavoritos: true,
-        avaliacoes: true,
+        livrosFavoritos: true
       },
     });
   }
@@ -60,8 +56,7 @@ class UsuarioModel {
       data,
       include: {
         livroDestaque: true,
-        livrosFavoritos: true,
-        avaliacoes: true,
+        livrosFavoritos: true
       },
     });
   }
