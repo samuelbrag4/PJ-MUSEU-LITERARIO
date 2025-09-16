@@ -19,6 +19,7 @@ router.use("/auth", authRouter);
 router.get("/usuarios", authMiddleware, AuthController.getAllUsers);
 router.get("/usuarios/:id", authMiddleware, (req, res) => AuthController.getById(req, res));
 router.put("/usuarios/:id", authMiddleware, (req, res) => AuthController.update(req, res));
+router.delete("/usuarios/:id", authMiddleware, (req, res) => AuthController.delete(req, res));
 // Adicione aqui outras rotas de usuário se necessário
 
 // Outras rotas

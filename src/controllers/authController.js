@@ -3,6 +3,16 @@ import jwt from "jsonwebtoken";
 import UserModel from "../models/usuarioModel.js";
 
 class AuthController {
+  // Deletar usuário por ID
+  async delete(req, res) {
+    const { id } = req.params;
+    try {
+      await UserModel.delete(id);
+      res.json({ message: "Usuário deletado com sucesso." });
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao deletar usuário." });
+    }
+  }
   // Atualizar usuário por ID
   async update(req, res) {
     const { id } = req.params;

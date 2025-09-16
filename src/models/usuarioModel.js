@@ -72,6 +72,10 @@ class UsuarioModel {
 
   // Excluir um usuário
   async delete(id) {
+    // Deleta todos os favoritos do usuário antes de deletar o usuário
+    await prisma.favorito.deleteMany({
+      where: { usuarioId: Number(id) },
+    });
     await prisma.usuario.delete({
       where: { id: Number(id) },
     });
