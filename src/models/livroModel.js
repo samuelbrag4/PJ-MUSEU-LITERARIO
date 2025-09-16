@@ -11,18 +11,12 @@ class LivroModel {
 
     const where = {};
     if (id) where.id = Number(id);
-    if (titulo) where.titulo = { contains: titulo };
-    if (genero) where.genero = genero;
-    if (dificuldade) where.dificuldade = dificuldade;
-    if (autor) {
-      where.autor = {
-        nome: {
-          contains: autor
-        }
-      };
-    }
+    if (titulo) where.titulo = { contains: titulo, mode: "insensitive" };
+    if (genero) where.genero = { equals: genero, mode: "insensitive" };
+    if (dificuldade) where.dificuldade = { equals: dificuldade, mode: "insensitive" };
 
-    const livros = await prisma.livro.findMany({
+    // Busca inicial sem filtro de autor
+    let livros = await prisma.livro.findMany({
       skip,
       take: Number(limite),
       where,
@@ -32,9 +26,16 @@ class LivroModel {
       }
     });
 
-    const totalExibidos = livros.length;
-    const totalGeral = await prisma.livro.count({ where });
+    // Filtro de autor manual (case-insensitive)
+    if (autor) {
+      const autorLower = autor.toLowerCase();
+      livros = livros.filter(livro => livro.autor && livro.autor.nome && livro.autor.nome.toLowerCase().includes(autorLower));
+    }
 
+
+    const totalExibidos = livros.length;
+    // O totalGeral agora é o total após filtro manual de autor
+    const totalGeral = totalExibidos;
     return { totalExibidos, totalGeral, livros };
   }
 
