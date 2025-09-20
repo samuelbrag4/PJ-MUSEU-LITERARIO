@@ -4,6 +4,8 @@ import livroRoutes from "./livroRoutes.js";
 import escritorRoutes from "./escritorRoutes.js";
 import favoritoRoutes from "./favoritoRoutes.js";
 import AuthController from "../controllers/authController.js";
+import upload from "../middleware/uploadMiddleware.js";
+import UploadController from "../controllers/uploadController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -26,5 +28,7 @@ router.delete("/usuarios/:id", authMiddleware, (req, res) => AuthController.dele
 router.use("/livros", livroRoutes);
 router.use("/escritores", escritorRoutes);
 router.use("/favoritos", favoritoRoutes);
+// Rota de upload de foto de usuário
+router.post("/upload/foto", upload.single("foto"), (req, res) => UploadController.uploadFoto(req, res));
 
 export default router;
