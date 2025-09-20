@@ -1,10 +1,75 @@
-# 📬 Exemplos de Requisições HTTP
+# 🏛️ Museu Literário Brasileiro - API
 
-Aqui estão exemplos de como testar as principais rotas da API usando Postman, Insomnia ou qualquer ferramenta HTTP. Todas as rotas protegidas exigem o token JWT no header `Authorization: Bearer <seu_token>`.
+## Descrição
+API RESTful para um museu virtual de obras literárias nacionais, permitindo cadastro, autenticação, upload de imagens, gerenciamento de livros, escritores, favoritos e perfis de usuário.
 
-## Usuário
+---
 
-### Registrar usuário
+## Funcionalidades Principais
+- Cadastro e login de usuários com autenticação JWT
+- Upload de imagem para perfil de usuário e capa de livro
+- CRUD de livros, escritores e favoritos
+- Filtros e paginação para busca de livros
+- Validação de dados robusta com Joi
+- Proteção de rotas sensíveis
+- Relacionamentos entre usuários, livros e escritores
+
+---
+
+## Tecnologias Utilizadas
+- Node.js + Express
+- Prisma ORM (SQLite)
+- Joi (validação)
+- Multer (upload de arquivos)
+- JWT (autenticação)
+- Estrutura modular (controllers, models, routes, middleware)
+
+---
+
+## Como Rodar o Projeto
+
+1. Instale as dependências:
+	 ```bash
+	 npm install
+	 ```
+2. Configure o banco de dados (SQLite):
+	 ```bash
+	 npx prisma migrate dev
+	 npx prisma generate
+	 ```
+3. Inicie o servidor:
+	 ```bash
+	 npm run dev
+	 ```
+4. (Opcional) Crie um arquivo `.env` para variáveis de ambiente.
+
+---
+
+## Estrutura de Pastas
+
+```
+src/
+	controllers/
+	models/
+	routes/
+	middleware/
+	validations/
+prisma/
+uploads/
+```
+
+---
+
+## Como Usar a API
+
+### Upload de Imagem (Usuário ou Livro)
+- Endpoint: `POST /upload/foto`
+- Formato: `multipart/form-data` com campo `foto`
+- Resposta: `{ "url": "/uploads/nomedoarquivo.jpg" }`
+
+### Exemplos de Requisições HTTP
+
+#### Registrar usuário
 POST /auth/register
 Body (JSON):
 ```
@@ -15,11 +80,12 @@ Body (JSON):
 	"senha": "senha123",
 	"nascimento": 2000,
 	"idade": 25,
-	"tipo": "NORMAL"
+	"tipo": "NORMAL",
+	"foto": "/uploads/foto-perfil.jpg" // opcional, use a URL do upload
 }
 ```
 
-### Login
+#### Login
 POST /auth/login
 Body (JSON):
 ```
@@ -29,35 +95,57 @@ Body (JSON):
 }
 ```
 
-### Listar todos os usuários
-GET /usuarios
-Headers: Authorization: Bearer <token>
-
-### Buscar usuário por ID
-GET /usuarios/1
-Headers: Authorization: Bearer <token>
-
-### Criar usuário
-POST /usuarios
-Headers: Authorization: Bearer <token>
-Body (JSON): igual ao registro
-
-### Atualizar usuário
-PUT /usuarios/1
+#### Criar livro
+POST /livros
 Headers: Authorization: Bearer <token>
 Body (JSON):
 ```
 {
-	"nome": "João da Silva",
-	"idade": 26
+	"titulo": "Dom Casmurro",
+	"anoLancamento": 1899,
+	"autorId": 1,
+	"descricao": "Romance clássico brasileiro.",
+	"mediaPreco": 39.9,
+	"imagem": "/uploads/capa-livro.jpg", // use a URL do upload
+	"genero": "Romance",
+	"dificuldade": "ALTA",
+	"temAdaptacao": true,
+	"numeroPaginas": 240
 }
 ```
 
-### Deletar usuário
-DELETE /usuarios/1
-Headers: Authorization: Bearer <token>
+#### Upload de imagem (exemplo com cURL)
+```bash
+curl -X POST http://localhost:3000/upload/foto -F "foto=@/caminho/para/imagem.jpg"
+```
+
+#### Outras rotas
+- Listar, buscar, atualizar e deletar usuários, livros, escritores e favoritos seguem o padrão REST e estão detalhadas nos controllers e nas rotas.
 
 ---
+
+## Validações e Regras de Negócio
+
+- Todos os dados são validados com Joi antes de serem salvos.
+- Campos obrigatórios e formatos aceitos estão descritos nos exemplos.
+- Upload aceita apenas imagens (png, jpg, jpeg, gif, webp) até 5MB.
+- O campo `imagem` (livro) e `foto` (usuário) deve receber a URL retornada pelo upload.
+
+---
+
+## Observações
+
+- O projeto segue boas práticas de organização e segurança.
+- O endpoint de upload pode ser usado tanto para foto de usuário quanto para capa de livro.
+- Para testar, use ferramentas como Postman, Insomnia ou cURL.
+
+---
+
+## Créditos
+
+Desenvolvido por Samuel dos Santos Braga  
+Curso: Desenvolvimento de Sistemas - 2TDS2 - SENAI Valinhos-SP (2025)  
+Orientadores: Felipe Santos e Felipe Mamprim
 
 ## Livros
 
