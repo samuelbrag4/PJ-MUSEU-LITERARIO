@@ -1,6 +1,8 @@
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/usuarioModel.js";
+import { usuarioSchema } from "../validations/usuarioValidation.js";
 
 class AuthController {
   // Deletar usuário por ID
@@ -18,13 +20,18 @@ class AuthController {
     const { id } = req.params;
     const data = req.body;
 
-    // Permitir atualização parcial, mas exigir pelo menos um campo
     if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ error: "Envie pelo menos um campo para atualizar." });
     }
 
+    // Validação Joi (parcial)
+    const { error, value } = usuarioSchema.fork(Object.keys(data), (schema) => schema.optional()).validate(data);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
     try {
-      const user = await UserModel.update(id, data);
+      const user = await UserModel.update(id, value);
       if (!user) {
         return res.status(404).json({ error: "Usuário não encontrado." });
       }
@@ -59,20 +66,13 @@ class AuthController {
 
   // Registrar novo usuário
   async register(req, res) {
-    const { nome, nomeUsuario, email, senha, nascimento, idade, tipo } = req.body;
-
-    // Validação de campos obrigatórios
-    const missingFields = [];
-    if (!nome) missingFields.push("nome");
-    if (!nomeUsuario) missingFields.push("nomeUsuario");
-    if (!email) missingFields.push("email");
-    if (!senha) missingFields.push("senha");
-    if (!nascimento) missingFields.push("nascimento");
-    if (!idade) missingFields.push("idade");
-    if (!tipo) missingFields.push("tipo");
-    if (missingFields.length > 0) {
-      return res.status(400).json({ error: `Os campos obrigatórios estão faltando: ${missingFields.join(", ")}` });
+    // Validação Joi
+    const { error, value } = usuarioSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
     }
+
+    const { nome, nomeUsuario, email, senha, nascimento, idade, tipo, foto } = value;
 
     try {
       // Verificar se o e-mail já está em uso
@@ -92,7 +92,8 @@ class AuthController {
         senha: hashedPassword,
         nascimento,
         idade,
-        tipo
+        tipo,
+        foto
       });
 
       res.status(201).json({ message: "Usuário registrado com sucesso!", user });

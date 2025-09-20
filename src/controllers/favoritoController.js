@@ -1,4 +1,6 @@
+
 import FavoritoModel from "../models/favoritoModel.js";
+import { favoritoSchema } from "../validations/favoritoValidation.js";
 
 class FavoritoController {
   // GET /favoritos
@@ -27,7 +29,11 @@ class FavoritoController {
   // POST /favoritos
   async create(req, res) {
     try {
-      const favorito = await FavoritoModel.create(req.body);
+      const { error, value } = favoritoSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+      const favorito = await FavoritoModel.create(value);
       res.status(201).json(favorito);
     } catch (error) {
       console.error("Erro ao criar favorito:", error);
@@ -38,7 +44,11 @@ class FavoritoController {
   // PUT /favoritos/:id
   async update(req, res) {
     try {
-      const favorito = await FavoritoModel.update(req.params.id, req.body);
+      const { error, value } = favoritoSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+      const favorito = await FavoritoModel.update(req.params.id, value);
       if (!favorito) return res.status(404).json({ error: "Favorito não encontrado" });
       res.json(favorito);
     } catch (error) {

@@ -1,4 +1,6 @@
+
 import LivroModel from "../models/livroModel.js";
+import { livroSchema } from "../validations/livroValidation.js";
 
 class LivroController {
   // GET /livros
@@ -34,15 +36,14 @@ class LivroController {
   // POST /livros
   async createLivro(req, res) {
     try {
-      const data = req.body;
-      // Valide os campos obrigatórios aqui se quiser
-
-      const novoLivro = await LivroModel.create(data);
-
+      const { error, value } = livroSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+      const novoLivro = await LivroModel.create(value);
       if (!novoLivro) {
         return res.status(400).json({ error: "Erro ao criar livro" });
       }
-
       res.status(201).json({
         message: "Livro criado com sucesso",
         novoLivro,
@@ -57,14 +58,14 @@ class LivroController {
   async updateLivro(req, res) {
     try {
       const { id } = req.params;
-      const data = req.body;
-
-      const livroAtualizado = await LivroModel.update(id, data);
-
+      const { error, value } = livroSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+      const livroAtualizado = await LivroModel.update(id, value);
       if (!livroAtualizado) {
         return res.status(404).json({ error: "Livro não encontrado" });
       }
-
       res.json(livroAtualizado);
     } catch (error) {
       console.error("Erro ao atualizar livro:", error);

@@ -1,4 +1,6 @@
+
 import EscritorModel from "../models/escritorModel.js";
+import { escritorSchema } from "../validations/escritorValidation.js";
 
 class EscritorController {
   // GET /escritores
@@ -27,7 +29,11 @@ class EscritorController {
   // POST /escritores
   async create(req, res) {
     try {
-      const escritor = await EscritorModel.create(req.body);
+      const { error, value } = escritorSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+      const escritor = await EscritorModel.create(value);
       res.status(201).json(escritor);
     } catch (error) {
       console.error("Erro ao criar escritor:", error);
@@ -38,7 +44,11 @@ class EscritorController {
   // PUT /escritores/:id
   async update(req, res) {
     try {
-      const escritor = await EscritorModel.update(req.params.id, req.body);
+      const { error, value } = escritorSchema.fork(Object.keys(req.body), (schema) => schema.optional()).validate(req.body);
+      if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+      const escritor = await EscritorModel.update(req.params.id, value);
       if (!escritor) return res.status(404).json({ error: "Escritor não encontrado" });
       res.json(escritor);
     } catch (error) {

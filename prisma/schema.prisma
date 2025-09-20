@@ -50,7 +50,7 @@ model Livro {
   mediaPreco       Float
   imagem           String
   genero           String
-  dificuldade      Dificuldade
+  dificuldade      String
   temAdaptacao     Boolean
   numeroPaginas    Int
   favoritos        Favorito[]
@@ -61,20 +61,9 @@ model Favorito {
   id        Int           @id @default(autoincrement())
   usuarioId Int
   livroId   Int
-  status    StatusLeitura
+  status    String
   usuario   Usuario       @relation(fields: [usuarioId], references: [id])
   livro     Livro         @relation(fields: [livroId], references: [id])
 }
 
 
-enum Dificuldade {
-  BAIXA
-  MEDIA
-  ALTA
-}
-
-enum StatusLeitura {
-  LENDO
-  VOU_LER
-  LIDO
-}
