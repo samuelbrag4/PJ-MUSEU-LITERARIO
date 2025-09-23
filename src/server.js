@@ -4,11 +4,18 @@ import dotenv from "dotenv";
 
 import routes from "./routes/index.routes.js";
 
-
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// Configuração do CORS para permitir requisições do frontend
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -21,8 +28,9 @@ app.get("/", (req, res) => {
 // Middleware para rotas
 app.use("/", routes);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🟢 Servidor rodando na porta ${PORT} 🟢`);
+  console.log(`🌐 Acesse: http://localhost:${PORT}`);
 });
 
 // Captura interrupções (Ctrl+C) ou encerramento do processo

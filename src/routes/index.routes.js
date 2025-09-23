@@ -22,6 +22,11 @@ router.get("/usuarios", authMiddleware, AuthController.getAllUsers);
 router.get("/usuarios/:id", authMiddleware, (req, res) => AuthController.getById(req, res));
 router.put("/usuarios/:id", authMiddleware, (req, res) => AuthController.update(req, res));
 router.delete("/usuarios/:id", authMiddleware, (req, res) => AuthController.delete(req, res));
+
+// Rotas alternativas para compatibilidade com frontend (/users)
+router.get("/users/:id", authMiddleware, (req, res) => AuthController.getById(req, res));
+router.put("/users/:id", authMiddleware, (req, res) => AuthController.update(req, res));
+router.post("/users/upload-photo", authMiddleware, upload.single("foto"), (req, res) => UploadController.uploadFoto(req, res));
 // Adicione aqui outras rotas de usuário se necessário
 
 // Outras rotas

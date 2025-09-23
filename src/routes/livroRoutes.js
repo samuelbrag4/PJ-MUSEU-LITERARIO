@@ -15,6 +15,9 @@ const livroRouter = express.Router();
 // - Paginação: GET /livros?pagina=2&limite=5
 livroRouter.get("/", LivroController.getAllLivros);
 
+// GET /livros/autor/:autorId - Buscar livros por autor específico (ANTES do /:id)
+livroRouter.get("/autor/:autorId", authMiddleware, LivroController.getLivrosByAutor);
+
 // GET /livros/:id - Obter livro pelo ID (protegida)
 livroRouter.get("/:id", authMiddleware, LivroController.getLivroById);
 

@@ -41,7 +41,25 @@ class LivroModel {
 
   // Buscar livro por ID
   async findById(id) {
-    return await prisma.livro.findUnique({ where: { id: Number(id) } });
+    return await prisma.livro.findUnique({ 
+      where: { id: Number(id) },
+      include: {
+        autor: true
+      }
+    });
+  }
+
+  // Buscar livros por autor
+  async findByAutor(autorId) {
+    return await prisma.livro.findMany({
+      where: { 
+        autorId: Number(autorId) 
+      },
+      include: {
+        autor: true
+      },
+      orderBy: { id: "desc" }
+    });
   }
 
   // Criar livro

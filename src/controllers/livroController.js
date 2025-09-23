@@ -33,6 +33,18 @@ class LivroController {
     }
   }
 
+  // GET /livros/autor/:autorId
+  async getLivrosByAutor(req, res) {
+    try {
+      const { autorId } = req.params;
+      const livros = await LivroModel.findByAutor(autorId);
+      res.json(livros);
+    } catch (error) {
+      console.error("Erro ao buscar livros do autor:", error);
+      res.status(500).json({ error: "Erro ao buscar livros do autor!" });
+    }
+  }
+
   // POST /livros
   async createLivro(req, res) {
     try {
