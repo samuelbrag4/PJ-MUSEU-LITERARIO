@@ -8,5 +8,5 @@ export const usuarioSchema = Joi.object({
   nascimento: Joi.number().integer().required(),
   idade: Joi.number().integer().min(0).required(),
   tipo: Joi.string().valid("NORMAL", "ESCRITOR").required(),
-  foto: Joi.string().uri().allow(null, "")
+  foto: Joi.string().uri().allow(null, "").optional()
 });
