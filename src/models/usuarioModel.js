@@ -2,9 +2,15 @@
 import prisma from "../../prisma/prisma.js";
 
 class UsuarioModel {
-  // Obter todos os usuários
-  async findAll() {
+  // Obter todos os usuários (com filtro opcional por tipo)
+  async findAll(tipo = null) {
+    const where = {};
+    if (tipo) {
+      where.tipo = tipo.toUpperCase(); // Garante que seja maiúsculo
+    }
+    
     return await prisma.usuario.findMany({
+      where,
       include: {
         livroDestaque: true,
         livrosFavoritos: true

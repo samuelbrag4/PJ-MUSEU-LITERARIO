@@ -53,10 +53,11 @@ class AuthController {
       res.status(500).json({ error: "Erro ao buscar usuário por ID." });
     }
   }
-  // Listar todos os usuários
+  // Listar todos os usuários (com filtro opcional por tipo)
   async getAllUsers(req, res) {
     try {
-      const users = await UserModel.findAll();
+      const { tipo } = req.query;
+      const users = await UserModel.findAll(tipo);
       res.json(users);
     } catch (error) {
       console.error("Erro ao listar usuários:", error);

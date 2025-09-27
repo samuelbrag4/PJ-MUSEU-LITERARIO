@@ -11,9 +11,9 @@ class LivroModel {
 
     const where = {};
     if (id) where.id = Number(id);
-    if (titulo) where.titulo = { contains: titulo, mode: "insensitive" };
-    if (genero) where.genero = { equals: genero, mode: "insensitive" };
-    if (dificuldade) where.dificuldade = { equals: dificuldade, mode: "insensitive" };
+    if (titulo) where.titulo = { contains: titulo };
+    if (genero) where.genero = genero;
+    if (dificuldade) where.dificuldade = dificuldade;
 
     // Busca inicial sem filtro de autor
     let livros = await prisma.livro.findMany({
@@ -104,10 +104,7 @@ class LivroModel {
     for (const genero of generos) {
       const livros = await prisma.livro.findMany({
         where: {
-          genero: {
-            equals: genero,
-            mode: 'insensitive'
-          }
+          genero: genero // Comparação direta (case-sensitive para SQLite)
         },
         take: Number(limite),
         orderBy: { id: 'desc' },
