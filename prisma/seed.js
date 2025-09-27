@@ -36,36 +36,37 @@ async function main() {
 		}
 	});
 
-	const orwell = await prisma.escritor.create({
+	// Adicionar mais escritores brasileiros
+	const josedealencar = await prisma.escritor.create({
 		data: {
-			nome: "George Orwell",
-			email: "orwell@literature.com",
-			biografia: "George Orwell foi um escritor, jornalista e ensaísta político inglês.",
-			dataNascimento: new Date("1903-06-25"),
-			dataFalecimento: new Date("1950-01-21"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/7/7e/George_Orwell_press_photo.jpg"
+			nome: "José de Alencar",
+			email: "josealencar@literatura.com",
+			biografia: "José Martiniano de Alencar foi um escritor e político brasileiro, considerado um dos maiores representantes do Romantismo brasileiro e patrono da cadeira 23 da Academia Brasileira de Letras.",
+			dataNascimento: new Date("1829-05-01"),
+			dataFalecimento: new Date("1877-12-12"),
+			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Jos%C3%A9_de_Alencar_%28c._1870%29.jpg/220px-Jos%C3%A9_de_Alencar_%28c._1870%29.jpg"
 		}
 	});
 
-	const tolkien = await prisma.escritor.create({
+	const limabarreto = await prisma.escritor.create({
 		data: {
-			nome: "J.R.R. Tolkien",
-			email: "tolkien@literatura.com",
-			biografia: "John Ronald Reuel Tolkien foi um escritor, professor universitário e filólogo britânico.",
-			dataNascimento: new Date("1892-01-03"),
-			dataFalecimento: new Date("1973-09-02"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/J._R._R._Tolkien%2C_ca._1925.jpg/220px-J._R._R._Tolkien%2C_ca._1925.jpg"
+			nome: "Lima Barreto",
+			email: "limabarreto@literatura.com",
+			biografia: "Afonso Henriques de Lima Barreto foi um escritor brasileiro do período pré-modernista. É considerado um dos mais importantes escritores da literatura brasileira.",
+			dataNascimento: new Date("1881-05-13"),
+			dataFalecimento: new Date("1922-11-01"),
+			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Lima_Barreto_1916.jpg/220px-Lima_Barreto_1916.jpg"
 		}
 	});
 
-	const agatha = await prisma.escritor.create({
+	const racheldequeiroz = await prisma.escritor.create({
 		data: {
-			nome: "Agatha Christie",
-			email: "agatha@mystery.com",
-			biografia: "Agatha Christie foi uma escritora britânica que atuou como romancista e dramaturga.",
-			dataNascimento: new Date("1890-09-15"),
-			dataFalecimento: new Date("1976-01-12"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Agatha_Christie.png/220px-Agatha_Christie.png"
+			nome: "Rachel de Queiroz",
+			email: "rachel@literatura.com",
+			biografia: "Rachel de Queiroz foi uma escritora, jornalista, cronista e dramaturga brasileira. Foi a primeira mulher a ingressar na Academia Brasileira de Letras, em 1977.",
+			dataNascimento: new Date("1910-11-17"),
+			dataFalecimento: new Date("2003-11-04"),
+			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Rachel_de_Queiroz_1930.jpg/220px-Rachel_de_Queiroz_1930.jpg"
 		}
 	});
 
@@ -102,78 +103,47 @@ async function main() {
 		}
 	});
 
-	// FICÇÃO CIENTÍFICA
+	// LITERATURA ROMÂNTICA BRASILEIRA
 	await prisma.livro.create({
 		data: {
-			titulo: "1984",
-			anoLancamento: 1949,
-			autorId: orwell.id,
-			descricao: "Romance distópico que retrata uma sociedade totalitária.",
-			mediaPreco: 38.90,
-			imagem: "https://m.media-amazon.com/images/I/61NAx5pd6XL._SY466_.jpg",
-			genero: "Ficção Científica",
-			dificuldade: "MEDIA",
-			temAdaptacao: true,
-			numeroPaginas: 328
-		}
-	});
-
-	await prisma.livro.create({
-		data: {
-			titulo: "A Revolução dos Bichos",
-			anoLancamento: 1945,
-			autorId: orwell.id,
-			descricao: "Fábula sobre uma revolução dos animais em uma fazenda.",
+			titulo: "Iracema",
+			anoLancamento: 1865,
+			autorId: josedealencar.id,
+			descricao: "Romance indianista que narra a história de amor entre Iracema, índia tabajara, e Martim, colonizador português.",
 			mediaPreco: 32.90,
-			imagem: "https://m.media-amazon.com/images/I/61owI5nOadL._SY466_.jpg",
-			genero: "Ficção Científica",
-			dificuldade: "FACIL",
-			temAdaptacao: true,
-			numeroPaginas: 152
-		}
-	});
-
-	// FANTASIA
-	await prisma.livro.create({
-		data: {
-			titulo: "O Senhor dos Anéis: A Sociedade do Anel",
-			anoLancamento: 1954,
-			autorId: tolkien.id,
-			descricao: "Primeiro volume da épica trilogia de fantasia.",
-			mediaPreco: 89.90,
-			imagem: "https://m.media-amazon.com/images/I/91jBdG2aghL._SY466_.jpg",
-			genero: "Fantasia",
+			imagem: "https://m.media-amazon.com/images/I/71VrKHF3+7L._SY466_.jpg",
+			genero: "Romance",
 			dificuldade: "MEDIA",
 			temAdaptacao: true,
-			numeroPaginas: 576
+			numeroPaginas: 144
 		}
 	});
 
 	await prisma.livro.create({
 		data: {
-			titulo: "O Hobbit",
-			anoLancamento: 1937,
-			autorId: tolkien.id,
-			descricao: "A aventura de Bilbo Bolseiro na Terra Média.",
-			mediaPreco: 55.90,
-			imagem: "https://m.media-amazon.com/images/I/712cDO7d73L._SY466_.jpg",
-			genero: "Fantasia",
-			dificuldade: "FACIL",
+			titulo: "O Guarani",
+			anoLancamento: 1857,
+			autorId: josedealencar.id,
+			descricao: "Romance indianista que conta a história de Peri, índio goitacá, e Ceci, filha de fidalgo português.",
+			mediaPreco: 35.90,
+			imagem: "https://m.media-amazon.com/images/I/71QfB2YZJQL._SY466_.jpg",
+			genero: "Romance",
+			dificuldade: "MEDIA",
 			temAdaptacao: true,
-			numeroPaginas: 310
+			numeroPaginas: 432
 		}
 	});
 
-	// MISTÉRIO
+	// LITERATURA REALISTA BRASILEIRA
 	await prisma.livro.create({
 		data: {
-			titulo: "Assassinato no Expresso do Oriente",
-			anoLancamento: 1934,
-			autorId: agatha.id,
-			descricao: "Um dos mais famosos casos de Hercule Poirot.",
-			mediaPreco: 44.90,
-			imagem: "https://m.media-amazon.com/images/I/81V2oqUznzL._SY466_.jpg",
-			genero: "Mistério",
+			titulo: "Triste Fim de Policarpo Quaresma",
+			anoLancamento: 1915,
+			autorId: limabarreto.id,
+			descricao: "Romance que satiriza o nacionalismo exagerado e retrata a sociedade brasileira do início do século XX.",
+			mediaPreco: 38.90,
+			imagem: "https://m.media-amazon.com/images/I/71mKPv3HVSL._SY466_.jpg",
+			genero: "Drama",
 			dificuldade: "MEDIA",
 			temAdaptacao: true,
 			numeroPaginas: 256
@@ -182,16 +152,62 @@ async function main() {
 
 	await prisma.livro.create({
 		data: {
-			titulo: "E Não Sobrou Nenhum",
-			anoLancamento: 1939,
-			autorId: agatha.id,
-			descricao: "Dez pessoas são convidadas para uma ilha misteriosa.",
-			mediaPreco: 41.90,
-			imagem: "https://m.media-amazon.com/images/I/71U1uK2Pm3L._SY466_.jpg",
-			genero: "Mistério",
+			titulo: "O Cortiço",
+			anoLancamento: 1890,
+			autorId: limabarreto.id,
+			descricao: "Romance naturalista que retrata a vida em um cortiço carioca e as condições sociais da época.",
+			mediaPreco: 36.90,
+			imagem: "https://m.media-amazon.com/images/I/81VvnfJZr9L._SY466_.jpg",
+			genero: "Drama",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 288
+		}
+	});
+
+	// LITERATURA REGIONALISTA BRASILEIRA
+	await prisma.livro.create({
+		data: {
+			titulo: "O Quinze",
+			anoLancamento: 1930,
+			autorId: racheldequeiroz.id,
+			descricao: "Romance que retrata a seca de 1915 no Ceará e seus efeitos devastadores sobre a população sertaneja.",
+			mediaPreco: 34.90,
+			imagem: "https://m.media-amazon.com/images/I/71YmWzD7XZL._SY466_.jpg",
+			genero: "Drama",
+			dificuldade: "FACIL",
+			temAdaptacao: true,
+			numeroPaginas: 192
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Dôra, Doralina",
+			anoLancamento: 1975,
+			autorId: racheldequeiroz.id,
+			descricao: "Romance que conta a saga de uma mulher forte que enfrenta as adversidades da vida no interior do Ceará.",
+			mediaPreco: 42.90,
+			imagem: "https://m.media-amazon.com/images/I/71k8H6mKmDL._SY466_.jpg",
+			genero: "Drama",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 384
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Senhora",
+			anoLancamento: 1875,
+			autorId: josedealencar.id,
+			descricao: "Romance urbano que retrata os costumes da sociedade burguesa carioca do século XIX, explorando temas como casamento por interesse.",
+			mediaPreco: 33.90,
+			imagem: "https://m.media-amazon.com/images/I/71JwH5v+FYL._SY466_.jpg",
+			genero: "Romance",
 			dificuldade: "MEDIA",
 			temAdaptacao: true,
-			numeroPaginas: 288
+			numeroPaginas: 224
 		}
 	});
 
@@ -226,19 +242,19 @@ async function main() {
 		}
 	});
 
-	// AVENTURA
+	// CRÔNICAS BRASILEIRAS
 	await prisma.livro.create({
 		data: {
-			titulo: "As Duas Torres",
-			anoLancamento: 1954,
-			autorId: tolkien.id,
-			descricao: "Segundo volume de O Senhor dos Anéis.",
-			mediaPreco: 89.90,
-			imagem: "https://m.media-amazon.com/images/I/81EKaJxfuqL._SY466_.jpg",
-			genero: "Aventura",
+			titulo: "Recordações do Escrivão Isaías Caminha",
+			anoLancamento: 1909,
+			autorId: limabarreto.id,
+			descricao: "Romance autobiográfico que retrata as dificuldades de um jovem mulato para se inserir na sociedade carioca do início do século XX.",
+			mediaPreco: 37.90,
+			imagem: "https://m.media-amazon.com/images/I/71xB5ZvJ0cL._SY466_.jpg",
+			genero: "Literatura Brasileira",
 			dificuldade: "MEDIA",
-			temAdaptacao: true,
-			numeroPaginas: 448
+			temAdaptacao: false,
+			numeroPaginas: 312
 		}
 	});
 
