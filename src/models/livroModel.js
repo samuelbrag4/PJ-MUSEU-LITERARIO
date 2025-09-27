@@ -77,6 +77,52 @@ class LivroModel {
     await prisma.livro.delete({ where: { id: Number(id) } });
     return true;
   }
+
+  // Buscar todos os gêneros disponíveis
+  async getAllGeneros() {
+    const result = await prisma.livro.findMany({
+      select: {
+        genero: true
+      },
+      distinct: ['genero'],
+      orderBy: {
+        genero: 'asc'
+      }
+    });
+    
+    return result.map(item => item.genero).filter(genero => genero && genero.trim() !== '');
+  }
+
+  // Buscar livros agrupados por gênero (estilo Netflix)
+  async findGroupedByGenero(limite = 10) {
+    // Primeiro, buscar todos os gêneros
+    const generos = await this.getAllGeneros();
+    
+    const livrosPorGenero = {};
+    
+    // Para cada gênero, buscar alguns livros
+    for (const genero of generos) {
+      const livros = await prisma.livro.findMany({
+        where: {
+          genero: {
+            equals: genero,
+            mode: 'insensitive'
+          }
+        },
+        take: Number(limite),
+        orderBy: { id: 'desc' },
+        include: {
+          autor: true
+        }
+      });
+      
+      if (livros.length > 0) {
+        livrosPorGenero[genero] = livros;
+      }
+    }
+    
+    return livrosPorGenero;
+  }
 }
 
 export default new LivroModel();

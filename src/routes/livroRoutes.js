@@ -15,6 +15,13 @@ const livroRouter = express.Router();
 // - Paginação: GET /livros?pagina=2&limite=5
 livroRouter.get("/", LivroController.getAllLivros);
 
+// GET /livros/generos - Listar todos os gêneros disponíveis (público)
+livroRouter.get("/generos", LivroController.getGeneros);
+
+// GET /livros/por-genero - Buscar livros agrupados por gênero estilo Netflix (público)
+// Exemplo: GET /livros/por-genero?limite=8
+livroRouter.get("/por-genero", LivroController.getLivrosPorGenero);
+
 // GET /livros/autor/:autorId - Buscar livros por autor específico (ANTES do /:id)
 livroRouter.get("/autor/:autorId", authMiddleware, LivroController.getLivrosByAutor);
 

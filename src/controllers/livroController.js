@@ -45,6 +45,29 @@ class LivroController {
     }
   }
 
+  // GET /livros/generos - Listar todos os gêneros disponíveis
+  async getGeneros(req, res) {
+    try {
+      const generos = await LivroModel.getAllGeneros();
+      res.json(generos);
+    } catch (error) {
+      console.error("Erro ao buscar gêneros:", error);
+      res.status(500).json({ error: "Erro ao buscar gêneros!" });
+    }
+  }
+
+  // GET /livros/por-genero - Buscar livros agrupados por gênero (estilo Netflix)
+  async getLivrosPorGenero(req, res) {
+    try {
+      const { limite = 10 } = req.query; // Quantos livros por gênero
+      const livrosPorGenero = await LivroModel.findGroupedByGenero(limite);
+      res.json(livrosPorGenero);
+    } catch (error) {
+      console.error("Erro ao buscar livros por gênero:", error);
+      res.status(500).json({ error: "Erro ao buscar livros por gênero!" });
+    }
+  }
+
   // POST /livros
   async createLivro(req, res) {
     try {
