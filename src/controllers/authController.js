@@ -4,88 +4,110 @@ import jwt from "jsonwebtoken";
 import UserModel from "../models/usuarioModel.js";
 import { usuarioSchema } from "../validations/usuarioValidation.js";
 
+const DEBUG = process.env.DEBUG === 'true';
+const JWT_SECRET = process.env.JWT_SECRET || "museu_literario_jwt_secret_2025_muito_seguro";
+
+function log(message, type = 'info') {
+  if (!DEBUG && type === 'debug') return;
+  const timestamp = new Date().toISOString();
+  const prefix = { info: '🔵', success: '✅', warning: '⚠️', error: '❌', debug: '🐛' }[type] || '📝';
+  console.log(`${prefix} [AUTH] ${message}`);
+}
+
 class AuthController {
-  // Deletar usuário por ID
   async delete(req, res) {
     const { id } = req.params;
     try {
+      log(`Tentando deletar usuário ID: ${id}`, 'debug');
       await UserModel.delete(id);
-      res.json({ message: "Usuário deletado com sucesso." });
+      log(`Usuário ID: ${id} deletado com sucesso`, 'success');
+      res.json({ message: "Usuário deletado com sucesso" });
     } catch (error) {
-      res.status(500).json({ error: "Erro ao deletar usuário." });
+      log(`Erro ao deletar usuário ID: ${id} - ${error.message}`, 'error');
+      res.status(500).json({ error: "Erro ao deletar usuário" });
     }
   }
-  // Atualizar usuário por ID
+
   async update(req, res) {
     const { id } = req.params;
     const data = req.body;
 
     if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ error: "Envie pelo menos um campo para atualizar." });
+      log(`Tentativa de atualização sem dados - usuário ID: ${id}`, 'warning');
+      return res.status(400).json({ error: "Envie pelo menos um campo para atualizar" });
     }
 
-    // Validação Joi (parcial)
     const { error, value } = usuarioSchema.fork(Object.keys(data), (schema) => schema.optional()).validate(data);
     if (error) {
+      log(`Erro de validação ao atualizar usuário ID: ${id} - ${error.details[0].message}`, 'warning');
       return res.status(400).json({ error: error.details[0].message });
     }
 
     try {
+      log(`Atualizando usuário ID: ${id}`, 'debug');
       const user = await UserModel.update(id, value);
       if (!user) {
-        return res.status(404).json({ error: "Usuário não encontrado." });
+        log(`Usuário ID: ${id} não encontrado para atualização`, 'warning');
+        return res.status(404).json({ error: "Usuário não encontrado" });
       }
-      res.json({ message: "Usuário atualizado com sucesso!", user });
+      log(`Usuário ID: ${id} atualizado com sucesso`, 'success');
+      res.json({ message: "Usuário atualizado com sucesso", user });
     } catch (error) {
-      res.status(500).json({ error: "Erro ao atualizar usuário." });
+      log(`Erro ao atualizar usuário ID: ${id} - ${error.message}`, 'error');
+      res.status(500).json({ error: "Erro ao atualizar usuário" });
     }
   }
-  // Buscar usuário por ID
+
   async getById(req, res) {
     const { id } = req.params;
     try {
+      log(`Buscando usuário ID: ${id}`, 'debug');
       const user = await UserModel.findById(id);
       if (!user) {
-        return res.status(404).json({ error: "Usuário não encontrado." });
+        log(`Usuário ID: ${id} não encontrado`, 'warning');
+        return res.status(404).json({ error: "Usuário não encontrado" });
       }
+      log(`Usuário ID: ${id} encontrado`, 'debug');
       res.json(user);
     } catch (error) {
-      res.status(500).json({ error: "Erro ao buscar usuário por ID." });
+      log(`Erro ao buscar usuário ID: ${id} - ${error.message}`, 'error');
+      res.status(500).json({ error: "Erro ao buscar usuário" });
     }
   }
-  // Listar todos os usuários (com filtro opcional por tipo)
+
   async getAllUsers(req, res) {
     try {
       const { tipo } = req.query;
+      log(`Listando usuários${tipo ? ` - filtro tipo: ${tipo}` : ''}`, 'debug');
       const users = await UserModel.findAll(tipo);
+      log(`${users.length} usuários encontrados`, 'debug');
       res.json(users);
     } catch (error) {
-      console.error("Erro ao listar usuários:", error);
+      log(`Erro ao listar usuários - ${error.message}`, 'error');
       res.status(500).json({ error: "Erro ao listar usuários" });
     }
   }
 
-  // Registrar novo usuário
   async register(req, res) {
-    // Validação Joi
     const { error, value } = usuarioSchema.validate(req.body);
     if (error) {
+      log(`Erro de validação no registro - ${error.details[0].message}`, 'warning');
       return res.status(400).json({ error: error.details[0].message });
     }
 
     const { nome, nomeUsuario, email, senha, nascimento, idade, tipo, foto } = value;
 
     try {
-      // Verificar se o e-mail já está em uso
+      log(`Tentando registrar usuário: ${email}`, 'debug');
+      
       const userExists = await UserModel.findByEmail(email);
       if (userExists) {
-        return res.status(400).json({ error: "E-mail já está em uso." });
+        log(`Email já existe: ${email}`, 'warning');
+        return res.status(400).json({ error: "E-mail já está em uso" });
       }
 
-      // Gerar hash da senha
       const hashedPassword = await bcrypt.hash(senha, 10);
 
-      // Criar o usuário
       const user = await UserModel.create({
         nome,
         nomeUsuario,
@@ -97,50 +119,71 @@ class AuthController {
         foto
       });
 
-      res.status(201).json({ message: "Usuário registrado com sucesso!", user });
+      const token = jwt.sign(
+        { id: user.id, email: user.email, tipo: user.tipo }, 
+        JWT_SECRET, 
+        { expiresIn: "24h" }
+      );
+
+      const { senha: _, ...userWithoutPassword } = user;
+
+      log(`Usuário registrado com sucesso: ${email} (ID: ${user.id})`, 'success');
+      res.status(201).json({ 
+        message: "Usuário registrado com sucesso", 
+        user: userWithoutPassword,
+        token 
+      });
     } catch (error) {
-      res.status(500).json({ error: error.message || "Erro ao registrar usuário." });
+      log(`Erro ao registrar usuário: ${email} - ${error.message}`, 'error');
+      res.status(500).json({ error: "Erro ao registrar usuário" });
     }
   }
 
-  // Login de usuário
   async login(req, res) {
     const { email, senha } = req.body;
 
-    // Validação de campos obrigatórios
     const missingFields = [];
     if (!email) missingFields.push("email");
     if (!senha) missingFields.push("senha");
     if (missingFields.length > 0) {
-      return res.status(400).json({ error: `Os campos obrigatórios estão faltando: ${missingFields.join(", ")}` });
+      log(`Campos obrigatórios faltando: ${missingFields.join(", ")}`, 'warning');
+      return res.status(400).json({ 
+        error: `Campos obrigatórios: ${missingFields.join(", ")}` 
+      });
     }
 
     try {
-      // Verificar se o usuário existe
+      log(`Tentativa de login: ${email}`, 'debug');
+      
       const user = await UserModel.findByEmail(email);
       if (!user) {
-        return res.status(404).json({ error: "Usuário não encontrado." });
+        log(`Usuário não encontrado: ${email}`, 'warning');
+        return res.status(404).json({ error: "Usuário não encontrado" });
       }
 
-      // Verificar a senha
       const isPasswordValid = await bcrypt.compare(senha, user.senha);
       if (!isPasswordValid) {
-        return res.status(401).json({ error: "Senha inválida." });
+        log(`Senha inválida para: ${email}`, 'warning');
+        return res.status(401).json({ error: "Senha inválida" });
       }
 
-      // Gerar token JWT
-      const token = jwt.sign({ id: user.id }, "seu-segredo", { expiresIn: "1h" });
+      const token = jwt.sign(
+        { id: user.id, email: user.email, tipo: user.tipo }, 
+        JWT_SECRET, 
+        { expiresIn: "24h" }
+      );
 
-      // Remover o campo senha do retorno
       const { senha: _, ...userWithoutPassword } = user;
 
+      log(`Login realizado com sucesso: ${email} (ID: ${user.id})`, 'success');
       res.json({
-        message: "Login realizado com sucesso!",
+        message: "Login realizado com sucesso",
         token,
         user: userWithoutPassword,
       });
     } catch (error) {
-      res.status(500).json({ error: "Erro ao realizar login." });
+      log(`Erro no login: ${email} - ${error.message}`, 'error');
+      res.status(500).json({ error: "Erro ao realizar login" });
     }
   }
 }

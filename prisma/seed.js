@@ -1,19 +1,32 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+
 const prisma = new PrismaClient();
 
+function log(message, type = 'info') {
+	const timestamp = new Date().toISOString();
+	const prefix = { info: '🔵', success: '✅', warning: '⚠️', error: '❌' }[type] || '📝';
+	console.log(`${prefix} [SEED] ${message}`);
+}
+
 async function main() {
-	// Limpar todas as tabelas antes de inserir os dados
-	await prisma.favorito.deleteMany();
-	await prisma.livro.deleteMany();
-	await prisma.usuario.deleteMany();
-	await prisma.escritor.deleteMany();
+	log('Iniciando população do banco de dados...', 'info');
+	
+	try {
+		log('Limpando tabelas existentes...', 'info');
+		await prisma.seguidor.deleteMany();
+		await prisma.favorito.deleteMany();
+		await prisma.livro.deleteMany();
+		await prisma.usuario.deleteMany();
+		await prisma.escritor.deleteMany();
+		log('Tabelas limpas com sucesso', 'success');
 
-	// Gerar hashes para as senhas
-	const senhaUsuarioNormal = await bcrypt.hash("senha123", 10);
-	const senhaUsuarioEscritor = await bcrypt.hash("senha123", 10);
+		log('Gerando senhas criptografadas...', 'info');
+		const senhaUsuarioNormal = await bcrypt.hash("senha123", 10);
+		const senhaUsuarioEscritor = await bcrypt.hash("senha123", 10);
+		log('Senhas geradas com sucesso', 'success');
 
-	// Criar escritores de teste
+	log('Criando escritores brasileiros...', 'info');
 	const machado = await prisma.escritor.create({
 		data: {
 			nome: "Machado de Assis",
@@ -21,7 +34,7 @@ async function main() {
 			biografia: "Machado de Assis foi um escritor brasileiro, considerado um dos maiores nomes da literatura brasileira.",
 			dataNascimento: new Date("1839-06-21"),
 			dataFalecimento: new Date("1908-09-29"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Machado_de_Assis_1904.jpg"
+			foto: "https://commons.wikimedia.org/wiki/File:Machado_de_Assis_001.jpg#/media/File:Machado_de_Assis_001.jpg"
 		}
 	});
 
@@ -32,7 +45,7 @@ async function main() {
 			biografia: "Clarice Lispector foi uma escritora e jornalista brasileira nascida na Ucrânia.",
 			dataNascimento: new Date("1920-12-10"),
 			dataFalecimento: new Date("1977-12-09"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Clarice_Lispector.jpg/220px-Clarice_Lispector.jpg"
+			foto: "https://www.bn.gov.br/sites/default/files/styles/large/public/clarice-lispector.jpg"
 		}
 	});
 
@@ -44,7 +57,7 @@ async function main() {
 			biografia: "José Martiniano de Alencar foi um escritor e político brasileiro, considerado um dos maiores representantes do Romantismo brasileiro e patrono da cadeira 23 da Academia Brasileira de Letras.",
 			dataNascimento: new Date("1829-05-01"),
 			dataFalecimento: new Date("1877-12-12"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Jos%C3%A9_de_Alencar_%28c._1870%29.jpg/220px-Jos%C3%A9_de_Alencar_%28c._1870%29.jpg"
+			foto: "https://www.academia.org.br/sites/default/files/academicos/jose-de-alencar.jpg"
 		}
 	});
 
@@ -55,7 +68,7 @@ async function main() {
 			biografia: "Afonso Henriques de Lima Barreto foi um escritor brasileiro do período pré-modernista. É considerado um dos mais importantes escritores da literatura brasileira.",
 			dataNascimento: new Date("1881-05-13"),
 			dataFalecimento: new Date("1922-11-01"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Lima_Barreto_1916.jpg/220px-Lima_Barreto_1916.jpg"
+			foto: "https://www.bn.gov.br/sites/default/files/styles/medium/public/lima-barreto-foto.jpg"
 		}
 	});
 
@@ -66,13 +79,13 @@ async function main() {
 			biografia: "Rachel de Queiroz foi uma escritora, jornalista, cronista e dramaturga brasileira. Foi a primeira mulher a ingressar na Academia Brasileira de Letras, em 1977.",
 			dataNascimento: new Date("1910-11-17"),
 			dataFalecimento: new Date("2003-11-04"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Rachel_de_Queiroz_1930.jpg/220px-Rachel_de_Queiroz_1930.jpg"
+			foto: "https://www.academia.org.br/sites/default/files/academicos/rachel-de-queiroz.jpg"
 		}
 	});
 
 	// Criar livros de diferentes gêneros
 
-	// ROMANCE
+	log('Criando livros - Romances clássicos...', 'info');
 	await prisma.livro.create({
 		data: {
 			titulo: "Dom Casmurro",
@@ -80,7 +93,7 @@ async function main() {
 			autorId: machado.id,
 			descricao: "Romance de Machado de Assis que narra a história de Bentinho e Capitu.",
 			mediaPreco: 35.90,
-			imagem: "https://m.media-amazon.com/images/I/81QwQn2ATGL._SY466_.jpg",
+			imagem: "https://via.placeholder.com/300x400/2F4F4F/FFFFFF?text=Dom+Casmurro",
 			genero: "Romance",
 			dificuldade: "MEDIA",
 			temAdaptacao: true,
@@ -584,7 +597,7 @@ async function main() {
 			email: "carlamadeira@literatura.com",
 			biografia: "Carla Madeira nasceu em Belo Horizonte em 1964. Jornalista, publicitária e escritora brasileira, é autora de best-sellers como Tudo é Rio, A Natureza da Mordida e Véspera. Foi segunda escritora mais lida do Brasil em 2021.",
 			dataNascimento: new Date("1964-10-18"),
-			foto: "https://images.gr-assets.com/authors/1593530941p8/8518150.jpg"
+			foto: "https://www.saraivaconteudo.com.br/wp-content/uploads/2021/08/carla-madeira-autora-brasileira.jpg"
 		}
 	});
 
@@ -595,7 +608,7 @@ async function main() {
 			email: "conceicao@literatura.com",
 			biografia: "Maria da Conceição Evaristo de Brito é uma escritora mineira. Graduada em Letras pela UFRJ, é mestra em Literatura Brasileira pela PUC-Rio e doutora em Literatura Comparada pela UFF. É uma das principais autoras da literatura afro-brasileira contemporânea. Ganhadora do Prêmio Juca Pato 2023.",
 			dataNascimento: new Date("1946-11-29"),
-			foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Concei%C3%A7%C3%A3o_Evaristo_2019.jpg/220px-Concei%C3%A7%C3%A3o_Evaristo_2019.jpg"
+			foto: "https://www.geledes.org.br/wp-content/uploads/2019/11/conceicao-evaristo.jpg"
 		}
 	});
 
@@ -777,14 +790,22 @@ async function main() {
 		}
 	});
 
-	console.log("Seed concluído com sucesso!");
+		log('População do banco de dados concluída com sucesso!', 'success');
+		log(`Total criado: 7 escritores, 43 livros, 2 usuários`, 'info');
+	} catch (error) {
+		log(`Erro durante a população: ${error.message}`, 'error');
+		throw error;
+	}
 }
 
 main()
 	.catch((e) => {
+		log(`Erro fatal: ${e.message}`, 'error');
 		console.error(e);
 		process.exit(1);
 	})
 	.finally(async () => {
+		log('Desconectando do banco de dados...', 'info');
 		await prisma.$disconnect();
+		log('Processo de seed finalizado', 'success');
 	});
