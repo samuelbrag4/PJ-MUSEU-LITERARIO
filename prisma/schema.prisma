@@ -30,6 +30,9 @@ model Usuario {
   
   // Relacionamentos para seguir escritores
   escritoresSeguindo Seguidor[] @relation("UsuarioSeguindo") // Escritores que este usuário segue
+  
+  // Relacionamento para cronograma de leitura
+  cronogramas     CronogramaLeitura[] // Eventos do calendário do usuário
 }
 
 model Escritor {
@@ -61,15 +64,23 @@ model Livro {
   numeroPaginas    Int
   favoritos        Favorito[]
   usuariosDestaque Usuario[]   @relation("LivroDestaque") // Campo oposto para relação de destaque
+  cronogramas      CronogramaLeitura[] // Eventos de cronograma relacionados a este livro
 }
 
 model Favorito {
-  id        Int           @id @default(autoincrement())
-  usuarioId Int
-  livroId   Int
-  status    String
-  usuario   Usuario       @relation(fields: [usuarioId], references: [id])
-  livro     Livro         @relation(fields: [livroId], references: [id])
+  id           Int           @id @default(autoincrement())
+  usuarioId    Int
+  livroId      Int
+  status       String        @default("FAVORITO") // FAVORITO, QUERO_LER, LENDO, JA_LI
+  statusLeitura String?      @default("QUERO_LER") // QUERO_LER, LENDO, JA_LI
+  dataInicio   DateTime?     // Data que começou a ler
+  dataTermino  DateTime?     // Data que terminou de ler
+  progresso    Int?          @default(0) // Páginas lidas ou porcentagem
+  adicionadoEm DateTime      @default(now())
+  usuario      Usuario       @relation(fields: [usuarioId], references: [id])
+  livro        Livro         @relation(fields: [livroId], references: [id])
+  
+  @@unique([usuarioId, livroId]) // Um usuário só pode ter um favorito por livro
 }
 
 model Seguidor {
@@ -84,6 +95,22 @@ model Seguidor {
   
   // Índice único para evitar seguir o mesmo escritor mais de uma vez
   @@unique([usuarioId, escritorId])
+}
+
+model CronogramaLeitura {
+  id          Int      @id @default(autoincrement())
+  usuarioId   Int
+  data        DateTime // Data do evento no calendário
+  titulo      String   // Ex: "Lendo Dom Casmurro"
+  descricao   String?  // Ex: "Hoje é pra eu terminar o livro"
+  livroId     Int?     // Livro relacionado (opcional)
+  tipo        String   @default("EVENTO") // EVENTO, META, LEMBRETE
+  concluido   Boolean  @default(false)
+  criadoEm    DateTime @default(now())
+  
+  // Relacionamentos
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  livro       Livro?   @relation(fields: [livroId], references: [id])
 }
 
 

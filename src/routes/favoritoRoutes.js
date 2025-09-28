@@ -4,19 +4,15 @@ import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Listar todos os favoritos
 router.get("/", FavoritoController.getAll);
-
-// Buscar favorito por ID
 router.get("/:id", FavoritoController.getById);
 
-// Criar favorito (protegida)
 router.post("/", authMiddleware, FavoritoController.create);
-
-// Atualizar favorito (protegida)
 router.put("/:id", authMiddleware, FavoritoController.update);
-
-// Deletar favorito (protegida)
 router.delete("/:id", authMiddleware, FavoritoController.delete);
+
+router.get("/meus/favoritos", authMiddleware, FavoritoController.getMeusFavoritos);
+router.post("/toggle/:livroId", authMiddleware, FavoritoController.toggleFavorito);
+router.patch("/status/:livroId", authMiddleware, FavoritoController.updateStatusLeitura);
 
 export default router;
