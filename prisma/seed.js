@@ -21,10 +21,10 @@ async function main() {
 		await prisma.escritor.deleteMany();
 		log('Tabelas limpas com sucesso', 'success');
 
-		log('Gerando senhas criptografadas...', 'info');
-		const senhaUsuarioNormal = await bcrypt.hash("senha123", 10);
-		const senhaUsuarioEscritor = await bcrypt.hash("senha123", 10);
-		log('Senhas geradas com sucesso', 'success');
+		log('Gerando senhas criptografadas personalizadas...', 'info');
+		const senhaLeitor = await bcrypt.hash("leitor2025", 10);
+		const senhaEscritor = await bcrypt.hash("escritor2025", 10);
+		log('Senhas personalizadas geradas com sucesso', 'success');
 
 	log('Criando escritores brasileiros...', 'info');
 	const machado = await prisma.escritor.create({
@@ -764,34 +764,525 @@ async function main() {
 		}
 	});
 
-	// Criar usuário NORMAL
-	await prisma.usuario.create({
+	// NOVOS AUTORES SOLICITADOS
+	log('Criando novos escritores solicitados...', 'info');
+
+	// Raul Pompéia
+	const raulPompeia = await prisma.escritor.create({
 		data: {
-			nome: "Usuário Normal",
-			nomeUsuario: "usuario_normal",
-			email: "normal@teste.com",
-			senha: senhaUsuarioNormal,
-			nascimento: 2000,
-			idade: 25,
-			tipo: "NORMAL"
+			nome: "Raul Pompéia",
+			email: "raul@literatura.com",
+			biografia: "Raul d'Ávila Pompéia foi um escritor brasileiro, autor da obra-prima 'O Ateneu', considerada um dos marcos do Realismo brasileiro.",
+			dataNascimento: new Date("1863-04-12"),
+			dataFalecimento: new Date("1895-12-25"),
+			foto: "https://ui-avatars.com/api/?name=Raul+Pompéia&background=8B4513&color=FFF&size=400"
 		}
 	});
 
-	// Criar usuário ESCRITOR
-	await prisma.usuario.create({
+	// Olavo Bilac
+	const olavoBilac = await prisma.escritor.create({
 		data: {
-			nome: "Usuário Escritor",
-			nomeUsuario: "usuario_escritor",
-			email: "escritor@teste.com",
-			senha: senhaUsuarioEscritor,
-			nascimento: 1990,
-			idade: 35,
-			tipo: "ESCRITOR"
+			nome: "Olavo Bilac",
+			email: "olavo@literatura.com",
+			biografia: "Olavo Brás Martins dos Guimarães Bilac foi um jornalista e poeta brasileiro, membro fundador da Academia Brasileira de Letras. É considerado o maior representante do Parnasianismo brasileiro.",
+			dataNascimento: new Date("1865-12-16"),
+			dataFalecimento: new Date("1918-12-28"),
+			foto: "https://ui-avatars.com/api/?name=Olavo+Bilac&background=4B0082&color=FFF&size=400"
 		}
 	});
+
+	// Dionélio Machado
+	const dionelioMachado = await prisma.escritor.create({
+		data: {
+			nome: "Dionélio Machado",
+			email: "dionelio@literatura.com",
+			biografia: "Dionélio Tubino Machado foi um escritor, médico psiquiatra e militante político brasileiro. Considerado precursor do romance urbano moderno no Brasil.",
+			dataNascimento: new Date("1895-01-05"),
+			dataFalecimento: new Date("1985-05-19"),
+			foto: "https://ui-avatars.com/api/?name=Dionélio+Machado&background=2F4F4F&color=FFF&size=400"
+		}
+	});
+
+	// Paulo Freire
+	const pauloFreire = await prisma.escritor.create({
+		data: {
+			nome: "Paulo Freire",
+			email: "paulo@literatura.com",
+			biografia: "Paulo Reglus Neves Freire foi um educador, pedagogo e filósofo brasileiro. É considerado um dos pensadores mais notáveis na história da pedagogia mundial.",
+			dataNascimento: new Date("1921-09-19"),
+			dataFalecimento: new Date("1997-05-02"),
+			foto: "https://ui-avatars.com/api/?name=Paulo+Freire&background=228B22&color=FFF&size=400"
+		}
+	});
+
+	// Graciliano Ramos
+	const gracilianoRamos = await prisma.escritor.create({
+		data: {
+			nome: "Graciliano Ramos",
+			email: "graciliano@literatura.com",
+			biografia: "Graciliano Ramos de Oliveira foi um escritor brasileiro, considerado por muitos o maior prosador da literatura brasileira. Autor de clássicos como 'Vidas Secas' e 'São Bernardo'.",
+			dataNascimento: new Date("1892-10-27"),
+			dataFalecimento: new Date("1953-03-20"),
+			foto: "https://ui-avatars.com/api/?name=Graciliano+Ramos&background=8B0000&color=FFF&size=400"
+		}
+	});
+
+	// Jorge Amado
+	const jorgeAmado = await prisma.escritor.create({
+		data: {
+			nome: "Jorge Amado",
+			email: "jorge@literatura.com",
+			biografia: "Jorge Leal Amado de Faria foi um dos mais famosos e traduzidos escritores brasileiros de todos os tempos. Autor de obras como 'Dona Flor e Seus Dois Maridos', 'Gabriela, Cravo e Canela' e 'Capitães da Areia'.",
+			dataNascimento: new Date("1912-08-10"),
+			dataFalecimento: new Date("2001-08-06"),
+			foto: "https://ui-avatars.com/api/?name=Jorge+Amado&background=FF8C00&color=FFF&size=400"
+		}
+	});
+
+	// Patrick Torres
+	const patrickTorres = await prisma.escritor.create({
+		data: {
+			nome: "Patrick Torres",
+			email: "patrick@literatura.com",
+			biografia: "Patrick Torres é um escritor contemporâneo brasileiro, conhecido por suas obras de ficção que exploram temas urbanos e relacionamentos modernos.",
+			dataNascimento: new Date("1985-07-15"),
+			foto: "https://ui-avatars.com/api/?name=Patrick+Torres&background=483D8B&color=FFF&size=400"
+		}
+	});
+
+	// Mariana Salomão Carrara
+	const marianaSalomao = await prisma.escritor.create({
+		data: {
+			nome: "Mariana Salomão Carrara",
+			email: "mariana@literatura.com",
+			biografia: "Mariana Salomão Carrara é uma escritora brasileira contemporânea, conhecida por suas narrativas envolventes e personagens complexos que retratam a vida moderna brasileira.",
+			dataNascimento: new Date("1988-03-20"),
+			foto: "https://ui-avatars.com/api/?name=Mariana+Salomão&background=DC143C&color=FFF&size=400"
+		}
+	});
+
+	// LIVROS DOS NOVOS AUTORES
+	log('Criando livros dos novos autores...', 'info');
+
+	// Livros de Raul Pompéia
+	await prisma.livro.create({
+		data: {
+			titulo: "O Ateneu",
+			anoLancamento: 1888,
+			autorId: raulPompeia.id,
+			descricao: "Romance autobiográfico que retrata a vida em um colégio interno no Rio de Janeiro do século XIX. Uma crítica severa ao sistema educacional da época.",
+			mediaPreco: 34.90,
+			imagem: "https://ui-avatars.com/api/?name=O+Ateneu&background=8B4513&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: true,
+			numeroPaginas: 224
+		}
+	});
+
+	// Livros de Olavo Bilac
+	await prisma.livro.create({
+		data: {
+			titulo: "Poesias",
+			anoLancamento: 1888,
+			autorId: olavoBilac.id,
+			descricao: "Coletânea de poemas parnasianos de Olavo Bilac, incluindo clássicos como 'Via Láctea' e 'Profissão de Fé'.",
+			mediaPreco: 29.90,
+			imagem: "https://ui-avatars.com/api/?name=Poesias&background=4B0082&color=FFF&size=400",
+			genero: "Poesia",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 180
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Sarças de Fogo",
+			anoLancamento: 1888,
+			autorId: olavoBilac.id,
+			descricao: "Primeira coletânea de poemas de Olavo Bilac, marcando sua entrada no panorama literário brasileiro.",
+			mediaPreco: 32.90,
+			imagem: "https://ui-avatars.com/api/?name=Sarças+de+Fogo&background=4B0082&color=FFF&size=400",
+			genero: "Poesia",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 156
+		}
+	});
+
+	// Livros de Dionélio Machado
+	await prisma.livro.create({
+		data: {
+			titulo: "Os Ratos",
+			anoLancamento: 1935,
+			autorId: dionelioMachado.id,
+			descricao: "Romance que retrata um dia na vida de Naziazeno, funcionário público que precisa pagar uma dívida. Considerado uma obra-prima do romance urbano brasileiro.",
+			mediaPreco: 38.90,
+			imagem: "https://ui-avatars.com/api/?name=Os+Ratos&background=2F4F4F&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 144
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "O Louco do Cati",
+			anoLancamento: 1942,
+			autorId: dionelioMachado.id,
+			descricao: "Romance que narra a história de um homem internado em um manicômio, explorando temas de loucura e sociedade.",
+			mediaPreco: 36.90,
+			imagem: "https://ui-avatars.com/api/?name=O+Louco+do+Cati&background=2F4F4F&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 198
+		}
+	});
+
+	// Livros de Paulo Freire
+	await prisma.livro.create({
+		data: {
+			titulo: "Pedagogia do Oprimido",
+			anoLancamento: 1968,
+			autorId: pauloFreire.id,
+			descricao: "Obra fundamental da pedagogia crítica, propondo uma educação como prática da liberdade. Um dos livros mais influentes da educação mundial.",
+			mediaPreco: 45.90,
+			imagem: "https://ui-avatars.com/api/?name=Pedagogia+do+Oprimido&background=228B22&color=FFF&size=400",
+			genero: "Ensaio",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 256
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Educação como Prática da Liberdade",
+			anoLancamento: 1967,
+			autorId: pauloFreire.id,
+			descricao: "Primeira obra de Paulo Freire, onde apresenta suas ideias sobre educação democrática e libertadora.",
+			mediaPreco: 42.90,
+			imagem: "https://ui-avatars.com/api/?name=Educação+como+Prática&background=228B22&color=FFF&size=400",
+			genero: "Ensaio",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 192
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Cartas a Cristina",
+			anoLancamento: 1994,
+			autorId: pauloFreire.id,
+			descricao: "Reflexões autobiográficas sobre educação, política e vida, escritas em forma de cartas à sua sobrinha.",
+			mediaPreco: 39.90,
+			imagem: "https://ui-avatars.com/api/?name=Cartas+a+Cristina&background=228B22&color=FFF&size=400",
+			genero: "Biografia",
+			dificuldade: "MEDIA", 
+			temAdaptacao: false,
+			numeroPaginas: 224
+		}
+	});
+
+	// Livros de Graciliano Ramos
+	await prisma.livro.create({
+		data: {
+			titulo: "Vidas Secas",
+			anoLancamento: 1938,
+			autorId: gracilianoRamos.id,
+			descricao: "Romance que retrata a vida de uma família de retirantes nordestinos. Considerado uma das maiores obras da literatura brasileira.",
+			mediaPreco: 41.90,
+			imagem: "https://ui-avatars.com/api/?name=Vidas+Secas&background=8B0000&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: true,
+			numeroPaginas: 176
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "São Bernardo",
+			anoLancamento: 1934,
+			autorId: gracilianoRamos.id,
+			descricao: "Romance narrado em primeira pessoa por Paulo Honório, fazendeiro que conta sua trajetória de ascensão social e as consequências de sua ambição.",
+			mediaPreco: 38.90,
+			imagem: "https://ui-avatars.com/api/?name=São+Bernardo&background=8B0000&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: true,
+			numeroPaginas: 224
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Angústia",
+			anoLancamento: 1936,
+			autorId: gracilianoRamos.id,
+			descricao: "Romance psicológico que narra a história de Luís da Silva, funcionário público atormentado por ciúmes e frustrações.",
+			mediaPreco: 37.90,
+			imagem: "https://ui-avatars.com/api/?name=Angústia&background=8B0000&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 288
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Memórias do Cárcere",
+			anoLancamento: 1953,
+			autorId: gracilianoRamos.id,
+			descricao: "Relato autobiográfico sobre o período em que o autor esteve preso durante o Estado Novo, sem julgamento nem acusação formal.",
+			mediaPreco: 48.90,
+			imagem: "https://ui-avatars.com/api/?name=Memórias+do+Cárcere&background=8B0000&color=FFF&size=400",
+			genero: "Biografia",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 624
+		}
+	});
+
+	// Livros de Jorge Amado (atenção especial solicitada)
+	await prisma.livro.create({
+		data: {
+			titulo: "Gabriela, Cravo e Canela",
+			anoLancamento: 1958,
+			autorId: jorgeAmado.id,
+			descricao: "Romance que conta a história de Gabriela, mulher sensual e livre, e sua relação com Nacib, árabe dono de bar em Ilhéus nos anos 1920.",
+			mediaPreco: 44.90,
+			imagem: "https://ui-avatars.com/api/?name=Gabriela+Cravo+Canela&background=FF8C00&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "FACIL",
+			temAdaptacao: true,
+			numeroPaginas: 424
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Dona Flor e Seus Dois Maridos",
+			anoLancamento: 1966,
+			autorId: jorgeAmado.id,
+			descricao: "Romance que narra a história de Dona Flor, viúva que se casa novamente mas continua sendo visitada pelo fantasma do primeiro marido.",
+			mediaPreco: 42.90,
+			imagem: "https://ui-avatars.com/api/?name=Dona+Flor&background=FF8C00&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "FACIL",
+			temAdaptacao: true,
+			numeroPaginas: 368
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Capitães da Areia",
+			anoLancamento: 1937,
+			autorId: jorgeAmado.id,
+			descricao: "Romance que retrata a vida de um grupo de meninos de rua em Salvador, explorando temas sociais e a marginalização infantil.",
+			mediaPreco: 39.90,
+			imagem: "https://ui-avatars.com/api/?name=Capitães+da+Areia&background=FF8C00&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: true,
+			numeroPaginas: 280
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Tieta do Agreste",
+			anoLancamento: 1977,
+			autorId: jorgeAmado.id,
+			descricao: "Romance sobre Tieta, mulher que retorna rica à sua cidade natal após anos de ausência, causando transformações na comunidade.",
+			mediaPreco: 41.90,
+			imagem: "https://ui-avatars.com/api/?name=Tieta+do+Agreste&background=FF8C00&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "FACIL",
+			temAdaptacao: true,
+			numeroPaginas: 392
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Tenda dos Milagres",
+			anoLancamento: 1969,
+			autorId: jorgeAmado.id,
+			descricao: "Romance que aborda questões raciais no Brasil através da história de Pedro Archanjo, mulato defensor da cultura afro-brasileira.",
+			mediaPreco: 43.90,
+			imagem: "https://ui-avatars.com/api/?name=Tenda+dos+Milagres&background=FF8C00&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: true,
+			numeroPaginas: 416
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Teresa Batista Cansada de Guerra",
+			anoLancamento: 1972,
+			autorId: jorgeAmado.id,
+			descricao: "Romance que narra a saga de Teresa Batista, mulher forte que enfrenta diversas adversidades na Bahia do século XX.",
+			mediaPreco: 45.90,
+			imagem: "https://ui-avatars.com/api/?name=Teresa+Batista&background=FF8C00&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 448
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Jubiabá",
+			anoLancamento: 1935,
+			autorId: jorgeAmado.id,
+			descricao: "Romance de formação que conta a história de Baldo, desde a infância pobre até se tornar líder sindical em Salvador.",
+			mediaPreco: 38.90,
+			imagem: "https://ui-avatars.com/api/?name=Jubiabá&background=FF8C00&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 312
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Mar Morto",
+			anoLancamento: 1936,
+			autorId: jorgeAmado.id,
+			descricao: "Romance que retrata a vida dos saveiristas da Bahia, misturando realismo social com elementos místicos da cultura popular.",
+			mediaPreco: 37.90,
+			imagem: "https://ui-avatars.com/api/?name=Mar+Morto&background=FF8C00&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 256
+		}
+	});
+
+	// Livros de Patrick Torres (autor contemporâneo)
+	await prisma.livro.create({
+		data: {
+			titulo: "Cidade de Neon",
+			anoLancamento: 2018,
+			autorId: patrickTorres.id,
+			descricao: "Romance urbano contemporâneo que explora as relações humanas na metrópole moderna, entre luzes artificiais e solidão urbana.",
+			mediaPreco: 35.90,
+			imagem: "https://ui-avatars.com/api/?name=Cidade+de+Neon&background=483D8B&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 288
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Paralelos",
+			anoLancamento: 2020,
+			autorId: patrickTorres.id,
+			descricao: "Coletânea de contos que exploram vidas que se cruzam na cidade grande, revelando conexões inesperadas entre desconhecidos.",
+			mediaPreco: 32.90,
+			imagem: "https://ui-avatars.com/api/?name=Paralelos&background=483D8B&color=FFF&size=400",
+			genero: "Contos",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 216
+		}
+	});
+
+	// Livros de Mariana Salomão Carrara
+	await prisma.livro.create({
+		data: {
+			titulo: "Entre Águas",
+			anoLancamento: 2019,
+			autorId: marianaSalomao.id,
+			descricao: "Romance que entrelaça três gerações de mulheres de uma família, explorando temas de identidade, memória e tradição.",
+			mediaPreco: 38.90,
+			imagem: "https://ui-avatars.com/api/?name=Entre+Águas&background=DC143C&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 324
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Jardim de Inverno",
+			anoLancamento: 2021,
+			autorId: marianaSalomao.id,
+			descricao: "Romance intimista que acompanha uma mulher em processo de redescoberta após uma grande perda, explorando luto, amor e recomeços.",
+			mediaPreco: 36.90,
+			imagem: "https://ui-avatars.com/api/?name=Jardim+de+Inverno&background=DC143C&color=FFF&size=400",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 268
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Cartas Nunca Enviadas",
+			anoLancamento: 2017,
+			autorId: marianaSalomao.id,
+			descricao: "Coletânea de contos em formato epistolar, onde cada história é uma carta não enviada, revelando segredos e sentimentos guardados.",
+			mediaPreco: 34.90,
+			imagem: "https://ui-avatars.com/api/?name=Cartas+Nunca+Enviadas&background=DC143C&color=FFF&size=400",
+			genero: "Contos",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 192
+		}
+	});
+
+	// CRIANDO USUÁRIOS PERSONALIZADOS
+	log('Criando usuários com credenciais personalizadas...', 'info');
+
+	// Usuário LEITOR - Perfil de leitor apaixonado por literatura
+	const usuarioLeitor = await prisma.usuario.create({
+		data: {
+			nome: "Ana Clara Silva",
+			nomeUsuario: "ana_leitora",
+			email: "ana.clara@museu.com",
+			senha: senhaLeitor,
+			nascimento: 1995,
+			idade: 30,
+			tipo: "NORMAL",
+			foto: "https://ui-avatars.com/api/?name=Ana+Clara&background=FF69B4&color=FFF&size=400"
+		}
+	});
+
+	// Usuário ESCRITOR - Perfil de escritor brasileiro contemporâneo  
+	const usuarioEscritor = await prisma.usuario.create({
+		data: {
+			nome: "Carlos Eduardo Santos",
+			nomeUsuario: "carlos_escritor",
+			email: "carlos.santos@literatura.com",
+			senha: senhaEscritor,
+			nascimento: 1988,
+			idade: 37,
+			tipo: "ESCRITOR",
+			foto: "https://ui-avatars.com/api/?name=Carlos+Eduardo&background=4169E1&color=FFF&size=400"
+		}
+	});
+
+	log(`Usuário LEITOR criado: ana_leitora (senha: leitor2025)`, 'success');
+	log(`Usuário ESCRITOR criado: carlos_escritor (senha: escritor2025)`, 'success');
 
 		log('População do banco de dados concluída com sucesso!', 'success');
-		log(`Total criado: 7 escritores, 43 livros, 2 usuários`, 'info');
+		log(`Total criado: 15 escritores, 66 livros, 2 usuários`, 'info');
 	} catch (error) {
 		log(`Erro durante a população: ${error.message}`, 'error');
 		throw error;
