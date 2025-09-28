@@ -4,6 +4,7 @@ import livroRoutes from "./livroRoutes.js";
 import escritorRoutes from "./escritorRoutes.js";
 import favoritoRoutes from "./favoritoRoutes.js";
 import dashboardRoutes from "./dashboardRoutes.js";
+import seguidorRoutes from "./seguidorRoutes.js";
 import AuthController from "../controllers/authController.js";
 import upload from "../middleware/uploadMiddleware.js";
 import UploadController from "../controllers/uploadController.js";
@@ -37,6 +38,7 @@ router.use("/livros", livroRoutes);
 router.use("/escritores", escritorRoutes);
 router.use("/favoritos", favoritoRoutes);
 router.use("/dashboard", dashboardRoutes); // Rotas de estatísticas e dashboard
+router.use("/seguidores", seguidorRoutes); // Sistema de seguir escritores tipo Instagram
 // Rota de upload de foto de usuário
 router.post("/upload/foto", upload.single("foto"), (req, res) => UploadController.uploadFoto(req, res));
 

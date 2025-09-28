@@ -4,7 +4,15 @@ class EscritorModel {
 	// Buscar todos os escritores
 	async findAll() {
 		return await prisma.escritor.findMany({
-			include: { livros: true },
+			include: { 
+				livros: true,
+				_count: {
+					select: {
+						seguidores: true,
+						livros: true
+					}
+				}
+			},
 		});
 	}
 
@@ -12,7 +20,15 @@ class EscritorModel {
 	async findById(id) {
 		return await prisma.escritor.findUnique({
 			where: { id: Number(id) },
-			include: { livros: true },
+			include: { 
+				livros: true,
+				_count: {
+					select: {
+						seguidores: true,
+						livros: true
+					}
+				}
+			},
 		});
 	}
 

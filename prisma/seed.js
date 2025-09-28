@@ -232,13 +232,332 @@ async function main() {
 			titulo: "Perto do Coração Selvagem",
 			anoLancamento: 1943,
 			autorId: clarice.id,
-			descricao: "Romance de estreia de Clarice Lispector.",
+			descricao: "Romance de estreia de Clarice Lispector que revolucionou a literatura brasileira com sua prosa introspectiva e poética.",
 			mediaPreco: 46.90,
 			imagem: "https://m.media-amazon.com/images/I/71yQHjSKPfL._SY466_.jpg",
 			genero: "Drama",
 			dificuldade: "DIFICIL",
 			temAdaptacao: false,
 			numeroPaginas: 192
+		}
+	});
+
+	// MAIS OBRAS DE CLARICE LISPECTOR
+	await prisma.livro.create({
+		data: {
+			titulo: "O Lustre",
+			anoLancamento: 1946,
+			autorId: clarice.id,
+			descricao: "Segundo romance de Clarice, que narra a trajetória de Virgínia em busca de compreender o mundo e a própria existência.",
+			mediaPreco: 42.90,
+			imagem: "https://m.media-amazon.com/images/I/71mQ8NX7jCL._SY466_.jpg",
+			genero: "Romance",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 280
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Cidade Sitiada",
+			anoLancamento: 1949,
+			autorId: clarice.id,
+			descricao: "Romance que explora a vida de Lucrécia Neves e sua relação com a cidade em transformação, uma metáfora sobre a condição humana.",
+			mediaPreco: 40.90,
+			imagem: "https://m.media-amazon.com/images/I/71vR2ZKjKzL._SY466_.jpg",
+			genero: "Romance",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 200
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Maçã no Escuro",
+			anoLancamento: 1961,
+			autorId: clarice.id,
+			descricao: "Romance existencial que acompanha Martim em sua fuga e redescoberta do mundo após cometer um crime. Considerado uma das grandes obras da autora.",
+			mediaPreco: 48.90,
+			imagem: "https://m.media-amazon.com/images/I/71KzK8Wz8jL._SY466_.jpg",
+			genero: "Romance",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 352
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Paixão Segundo G.H.",
+			anoLancamento: 1964,
+			autorId: clarice.id,
+			descricao: "Obra-prima de Clarice Lispector, considerada um dos grandes romances da literatura mundial. Narra a epifania de uma mulher ao comer uma barata.",
+			mediaPreco: 45.90,
+			imagem: "https://m.media-amazon.com/images/I/71xB9YkJ7tL._SY466_.jpg",
+			genero: "Romance",
+			dificuldade: "DIFICIL",
+			temAdaptacao: true,
+			numeroPaginas: 176
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Uma Aprendizagem ou O Livro dos Prazeres",
+			anoLancamento: 1969,
+			autorId: clarice.id,
+			descricao: "Romance que explora o amadurecimento emocional e sexual de Lóri através de sua relação com Ulisses, uma jornada de autodescoberta.",
+			mediaPreco: 43.90,
+			imagem: "https://m.media-amazon.com/images/I/71HmQ9xKzQL._SY466_.jpg",
+			genero: "Romance",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 160
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Água Viva",
+			anoLancamento: 1973,
+			autorId: clarice.id,
+			descricao: "Narrativa experimental que quebra as convenções do romance tradicional, apresentando um fluxo de consciência puro sobre a arte e a vida.",
+			mediaPreco: 41.90,
+			imagem: "https://m.media-amazon.com/images/I/71xR5vB6nGL._SY466_.jpg",
+			genero: "Romance",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 96
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Um Sopro de Vida",
+			anoLancamento: 1978,
+			autorId: clarice.id,
+			descricao: "Último romance de Clarice, publicado postumamente. Uma reflexão profunda sobre a criação literária e a condição humana através do diálogo entre Autor e Ângela.",
+			mediaPreco: 44.90,
+			imagem: "https://m.media-amazon.com/images/I/71QzR8vYKjL._SY466_.jpg",
+			genero: "Romance",
+			dificuldade: "DIFICIL",
+			temAdaptacao: false,
+			numeroPaginas: 144
+		}
+	});
+
+	// CONTOS DE CLARICE LISPECTOR
+	await prisma.livro.create({
+		data: {
+			titulo: "Laços de Família",
+			anoLancamento: 1960,
+			autorId: clarice.id,
+			descricao: "Coletânea de 13 contos que explora as relações familiares e os momentos de epifania no cotidiano. Uma das obras mais importantes da contística brasileira.",
+			mediaPreco: 39.90,
+			imagem: "https://m.media-amazon.com/images/I/71YvKGz8q5L._SY466_.jpg",
+			genero: "Contos",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 156
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Legião Estrangeira",
+			anoLancamento: 1964,
+			autorId: clarice.id,
+			descricao: "Coletânea de contos e crônicas que inclui textos sobre animais e reflexões sobre a condição humana, revelando a sensibilidade única da autora.",
+			mediaPreco: 42.90,
+			imagem: "https://m.media-amazon.com/images/I/71dKpR4RKOL._SY466_.jpg",
+			genero: "Contos",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 200
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Felicidade Clandestina",
+			anoLancamento: 1971,
+			autorId: clarice.id,
+			descricao: "Coletânea de contos autobiográficos que inclui o famoso conto que dá nome ao livro, explorando memórias da infância e juventude da autora.",
+			mediaPreco: 38.90,
+			imagem: "https://m.media-amazon.com/images/I/71K8qXzMx2L._SY466_.jpg",
+			genero: "Contos",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 164
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Imitação da Rosa",
+			anoLancamento: 1973,
+			autorId: clarice.id,
+			descricao: "Coletânea de contos que reúne algumas das melhores narrativas curtas de Clarice, incluindo o conto que dá título ao livro.",
+			mediaPreco: 37.90,
+			imagem: "https://m.media-amazon.com/images/I/61lmQ8xR4ZL._SY466_.jpg",
+			genero: "Contos",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 144
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Onde Estivestes de Noite",
+			anoLancamento: 1974,
+			autorId: clarice.id,
+			descricao: "Coletânea de contos que explora temas como solidão, amor e a busca pelo sentido da existência através de personagens femininas marcantes.",
+			mediaPreco: 40.90,
+			imagem: "https://m.media-amazon.com/images/I/71pB5X8Zx9L._SY466_.jpg",
+			genero: "Contos",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 152
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Via Crucis do Corpo",
+			anoLancamento: 1974,
+			autorId: clarice.id,
+			descricao: "Coletânea ousada de contos que aborda a sexualidade de forma franca e direta, quebrando tabus da época com a maestria característica da autora.",
+			mediaPreco: 43.90,
+			imagem: "https://m.media-amazon.com/images/I/71K7x4ZLzpL._SY466_.jpg",
+			genero: "Contos",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 88
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Bela e a Fera",
+			anoLancamento: 1979,
+			autorId: clarice.id,
+			descricao: "Coletânea póstuma de contos que reúne textos esparsos da autora, incluindo narrativas inéditas e versões alternativas de contos conhecidos.",
+			mediaPreco: 41.90,
+			imagem: "https://m.media-amazon.com/images/I/71xN8qK4M2L._SY466_.jpg",
+			genero: "Contos",
+			dificuldade: "MEDIA",
+			temAdaptacao: false,
+			numeroPaginas: 136
+		}
+	});
+
+	// CRÔNICAS DE CLARICE LISPECTOR
+	await prisma.livro.create({
+		data: {
+			titulo: "Para Não Esquecer",
+			anoLancamento: 1978,
+			autorId: clarice.id,
+			descricao: "Coletânea de crônicas publicadas no Jornal do Brasil, onde Clarice revela seu lado mais íntimo e reflexivo sobre o cotidiano.",
+			mediaPreco: 36.90,
+			imagem: "https://m.media-amazon.com/images/I/71R8vY6KNOL._SY466_.jpg",
+			genero: "Crônicas",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 128
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Descoberta do Mundo",
+			anoLancamento: 1984,
+			autorId: clarice.id,
+			descricao: "Coletânea póstuma das crônicas publicadas no Jornal do Brasil entre 1967 e 1973, revelando o olhar sensível da autora sobre o mundo.",
+			mediaPreco: 45.90,
+			imagem: "https://m.media-amazon.com/images/I/71nB7Q8M9XL._SY466_.jpg",
+			genero: "Crônicas",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 500
+		}
+	});
+
+	// LITERATURA INFANTIL DE CLARICE LISPECTOR
+	await prisma.livro.create({
+		data: {
+			titulo: "O Mistério do Coelho Pensante",
+			anoLancamento: 1967,
+			autorId: clarice.id,
+			descricao: "Primeiro livro infantil de Clarice Lispector, uma história envolvente sobre um coelho que resolve mistérios, escrita com a sensibilidade única da autora.",
+			mediaPreco: 32.90,
+			imagem: "https://m.media-amazon.com/images/I/61vB8q4RQKL._SY466_.jpg",
+			genero: "Literatura Infantil",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 48
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Mulher que Matou os Peixes",
+			anoLancamento: 1968,
+			autorId: clarice.id,
+			descricao: "Livro infantil onde Clarice conta para as crianças, com culpa e ternura, sobre como acabou matando os peixinhos vermelhos de seus filhos.",
+			mediaPreco: 30.90,
+			imagem: "https://m.media-amazon.com/images/I/71zK8RpLxvL._SY466_.jpg",
+			genero: "Literatura Infantil",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 40
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "A Vida Íntima de Laura",
+			anoLancamento: 1974,
+			autorId: clarice.id,
+			descricao: "História sobre Laura, uma galinha que vive uma vida simples mas repleta de pequenas descobertas e reflexões sobre a existência.",
+			mediaPreco: 31.90,
+			imagem: "https://m.media-amazon.com/images/I/71B8nK4RKQL._SY466_.jpg",
+			genero: "Literatura Infantil",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 32
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Quase de Verdade",
+			anoLancamento: 1978,
+			autorId: clarice.id,
+			descricao: "Último livro infantil de Clarice, publicado postumamente, que conta a história de Ulisses, um cão que narra suas aventuras e pensamentos.",
+			mediaPreco: 33.90,
+			imagem: "https://m.media-amazon.com/images/I/71p8N4qRzML._SY466_.jpg",
+			genero: "Literatura Infantil",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 44
+		}
+	});
+
+	await prisma.livro.create({
+		data: {
+			titulo: "Como Nasceram as Estrelas",
+			anoLancamento: 1987,
+			autorId: clarice.id,
+			descricao: "Coletânea póstuma de doze lendas brasileiras recontadas por Clarice Lispector, preservando a cultura popular com sua sensibilidade literária.",
+			mediaPreco: 35.90,
+			imagem: "https://m.media-amazon.com/images/I/71KzX5rB8wL._SY466_.jpg",
+			genero: "Literatura Infantil",
+			dificuldade: "FACIL",
+			temAdaptacao: false,
+			numeroPaginas: 80
 		}
 	});
 

@@ -27,6 +27,9 @@ model Usuario {
   tipo            String @default("NORMAL") // <-- Agora tem valor padrão!
   livroDestaqueId Int? // Novo campo: id do livro de destaque
   livroDestaque   Livro?      @relation("LivroDestaque", fields: [livroDestaqueId], references: [id])
+  
+  // Relacionamentos para seguir escritores
+  escritoresSeguindo Seguidor[] @relation("UsuarioSeguindo") // Escritores que este usuário segue
 }
 
 model Escritor {
@@ -38,6 +41,9 @@ model Escritor {
   dataFalecimento DateTime? // Data de falecimento (opcional)
   foto            String? // URL da foto do escritor
   livros          Livro[] // Relacionamento com os livros escritos por este autor
+  
+  // Relacionamentos para seguidores
+  seguidores      Seguidor[] @relation("EscritorSeguido") // Usuários que seguem este escritor
 }
 
 model Livro {
@@ -64,6 +70,20 @@ model Favorito {
   status    String
   usuario   Usuario       @relation(fields: [usuarioId], references: [id])
   livro     Livro         @relation(fields: [livroId], references: [id])
+}
+
+model Seguidor {
+  id         Int      @id @default(autoincrement())
+  usuarioId  Int      // ID do usuário que está seguindo
+  escritorId Int      // ID do escritor sendo seguido
+  seguidoEm  DateTime @default(now()) // Data em que começou a seguir
+  
+  // Relacionamentos
+  usuario   Usuario  @relation("UsuarioSeguindo", fields: [usuarioId], references: [id], onDelete: Cascade)
+  escritor  Escritor @relation("EscritorSeguido", fields: [escritorId], references: [id], onDelete: Cascade)
+  
+  // Índice único para evitar seguir o mesmo escritor mais de uma vez
+  @@unique([usuarioId, escritorId])
 }
 
 
