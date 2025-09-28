@@ -2,16 +2,31 @@
 import LivroModel from "../models/livroModel.js";
 import { livroSchema } from "../validations/livroValidation.js";
 
+const DEBUG = process.env.DEBUG === 'true';
+
+function log(message, type = 'info') {
+  if (!DEBUG && type === 'debug') return;
+  const timestamp = new Date().toISOString();
+  const prefix = { info: '🔵', success: '✅', warning: '⚠️', error: '❌', debug: '🐛' }[type] || '📝';
+  console.log(`${prefix} [LIVROS] ${message}`);
+}
+
 class LivroController {
   // GET /livros
   async getAllLivros(req, res) {
     const { id, titulo, genero, dificuldade, autor, pagina = 1, limite = 10 } = req.query;
 
     try {
+      log(`Buscando livros com filtros: ${JSON.stringify({ id, titulo, genero, dificuldade, autor, pagina, limite })}`, 'debug');
+      
       const livros = await LivroModel.findAll({ id, titulo, genero, dificuldade, autor, pagina, limite });
+      
+      log(`${livros.length} livros encontrados`, 'success');
+      log(`IDs dos livros retornados: [${livros.map(l => l.id).join(', ')}]`, 'debug');
+      
       res.json(livros);
     } catch (error) {
-      console.error("Erro ao buscar livros:", error);
+      log(`Erro ao buscar livros: ${error.message}`, 'error');
       res.status(500).json({ error: "Erro ao buscar livros" });
     }
   }
@@ -20,15 +35,19 @@ class LivroController {
   async getLivroById(req, res) {
     try {
       const { id } = req.params;
+      log(`Buscando livro específico com ID: ${id}`, 'debug');
+      
       const livro = await LivroModel.findById(id);
 
       if (!livro) {
+        log(`Livro com ID ${id} NÃO ENCONTRADO no banco de dados`, 'warning');
         return res.status(404).json({ error: "Livro não encontrado!" });
       }
 
+      log(`Livro encontrado: "${livro.titulo}" (ID: ${livro.id})`, 'success');
       res.json(livro);
     } catch (error) {
-      console.error("Erro ao buscar livro:", error);
+      log(`Erro ao buscar livro ID ${id}: ${error.message}`, 'error');
       res.status(500).json({ error: "Erro ao buscar livro!" });
     }
   }

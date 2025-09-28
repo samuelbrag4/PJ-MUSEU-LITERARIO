@@ -1,9 +1,19 @@
 import prisma from "../../prisma/prisma.js";
 
+const DEBUG = process.env.DEBUG === 'true';
+
+function log(message, type = 'info') {
+  if (!DEBUG && type === 'debug') return;
+  const timestamp = new Date().toISOString();
+  const prefix = { info: '🔵', success: '✅', warning: '⚠️', error: '❌', debug: '🐛' }[type] || '📝';
+  console.log(`${prefix} [LIVRO-MODEL] ${message}`);
+}
 
 class LivroModel {
   // Buscar todos os livros com filtros e paginação
   async findAll({ id, titulo, genero, dificuldade, autor, pagina = 1, limite = 10 }) {
+    log(`Iniciando busca de livros com parâmetros: ${JSON.stringify({ id, titulo, genero, dificuldade, autor, pagina, limite })}`, 'debug');
+    
     if (Number(pagina) < 1) pagina = 1;
     if (Number(limite) < 1 || Number(limite) > 100) limite = 10;
 
@@ -14,6 +24,9 @@ class LivroModel {
     if (titulo) where.titulo = { contains: titulo };
     if (genero) where.genero = genero;
     if (dificuldade) where.dificuldade = dificuldade;
+
+    log(`Query WHERE construída: ${JSON.stringify(where)}`, 'debug');
+    log(`Paginação: skip=${skip}, take=${limite}`, 'debug');
 
     // Busca inicial sem filtro de autor
     let livros = await prisma.livro.findMany({
@@ -26,27 +39,43 @@ class LivroModel {
       }
     });
 
+    log(`Busca inicial retornou ${livros.length} livros`, 'debug');
+    log(`IDs retornados da busca inicial: [${livros.map(l => l.id).join(', ')}]`, 'debug');
+
     // Filtro de autor manual (case-insensitive)
     if (autor) {
       const autorLower = autor.toLowerCase();
+      const livrosAntesDoFiltro = livros.length;
       livros = livros.filter(livro => livro.autor && livro.autor.nome && livro.autor.nome.toLowerCase().includes(autorLower));
+      log(`Filtro de autor "${autor}" aplicado: ${livrosAntesDoFiltro} → ${livros.length} livros`, 'debug');
     }
 
-
     const totalExibidos = livros.length;
-    // O totalGeral agora é o total após filtro manual de autor
     const totalGeral = totalExibidos;
+    
+    log(`Resultado final: ${totalExibidos} livros retornados`, 'success');
     return { totalExibidos, totalGeral, livros };
   }
 
   // Buscar livro por ID
   async findById(id) {
-    return await prisma.livro.findUnique({ 
-      where: { id: Number(id) },
+    const numericId = Number(id);
+    log(`Buscando livro por ID: ${id} (convertido para: ${numericId})`, 'debug');
+    
+    const livro = await prisma.livro.findUnique({ 
+      where: { id: numericId },
       include: {
         autor: true
       }
     });
+
+    if (livro) {
+      log(`Livro encontrado no banco: "${livro.titulo}" (ID: ${livro.id})`, 'debug');
+    } else {
+      log(`NENHUM livro encontrado no banco com ID: ${numericId}`, 'warning');
+    }
+
+    return livro;
   }
 
   // Buscar livros por autor

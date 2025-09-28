@@ -25,8 +25,8 @@ livroRouter.get("/por-genero", LivroController.getLivrosPorGenero);
 // GET /livros/autor/:autorId - Buscar livros por autor específico (ANTES do /:id)
 livroRouter.get("/autor/:autorId", authMiddleware, LivroController.getLivrosByAutor);
 
-// GET /livros/:id - Obter livro pelo ID (protegida)
-livroRouter.get("/:id", authMiddleware, LivroController.getLivroById);
+// GET /livros/:id - Obter livro pelo ID (PÚBLICO - para permitir visualização sem login)
+livroRouter.get("/:id", LivroController.getLivroById);
 
 // POST /livros - Criar novo livro (protegida)
 livroRouter.post("/", authMiddleware, LivroController.createLivro);
